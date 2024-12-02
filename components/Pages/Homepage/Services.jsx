@@ -14,19 +14,19 @@ export default function Services() {
       id: 2,
       title: 'Self Development',
       description: 'Its focus is to implement independent personal therapy as way of developing assistance to people who may be experiencing anxiety, etc.',
-      image: '/assets/Homepage/services/sd.jpg'
+      image: '/assets/homepage/services/sd.jpg'
     },
     {
       id: 1,
       title: 'Mental Awarness',
       description: 'This holistic program is for a person who will be or has been diagnosed by the Diagnostic and Statistical manual of Mental Disorder (DSM-TR).',
-      image: '/assets/Homepage/services/ma.jpg'
+      image: '/assets/homepage/services/ma.jpg'
     },
     {
       id: 1,
       title: 'Group Wellness',
       description: 'Its focus is to implement community group therapy and workhop designed to target specific issues such as anger,anxiety, depression grief etc. ',
-      image: '/assets/Homepage/services/g1.jpg'
+      image: '/assets/homepage/services/g1.jpg'
     }
   ]
   return (

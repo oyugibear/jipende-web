@@ -19,7 +19,7 @@ export default function Card({service}) {
                         </div>
                     </div>
                 </div>
-                <Image src='/assets/services/cardImg.png' alt='Service Card Image' width={442} height={223} className='max-h-[223px] object-cover'/>
+                <Image src='/assets/Services/cardImg.png' alt='Service Card Image' width={442} height={223} className='max-h-[223px] object-cover'/>
             </div>
             <p className='text-lg my-4 font-semibold'>{service?.title}</p>
             <p className='text-sm'>
