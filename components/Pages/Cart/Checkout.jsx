@@ -32,7 +32,7 @@ export default function Checkout({cart}) {
         try {
             const { data } = await axios.post(`${API_URL}/payment/add`, {
                 services: cart.products,
-                total: cart.totalAmount,
+                final_amount: cart.totalAmount,
                 vat: tax,
                 paymentType: paymnetOptionClicked,
                 phoneNumber: phoneNumber || null,
@@ -41,6 +41,7 @@ export default function Checkout({cart}) {
                 expiryDate: expiryDate || null,
                 cvv: cvv || null,
                 postedBy: user._id,
+                user: user
             })
             if(data){
                 message.success("Your Order has been completed")
@@ -96,60 +97,6 @@ export default function Checkout({cart}) {
                 Pay Now
             </button>
         </div>
-
-        {/* {paymnetOptionClicked == "Card" ? (
-            <div className='w-full flex flex-col py-8 text-sm'>
-                <h3 className='text-lg italic mb-4'>Pay With Credit/ Debit Card</h3>
-                <p className=''>
-                    Please key in your card details below, ensuring that all the deatials are correct
-                </p>
-
-                <form className='py-4 gap-2'>
-                    <div className='flex flex-col mb-2'>
-                        <label className='text-xs text-slate-400'>Name on Card</label>
-                        <input type="text" className='w-full p-4 border rounded-md'/>
-                    </div>
-                    <div className='flex flex-col mb-2'>
-                        <label className='text-xs text-slate-400'>Card Number </label>
-                        <input type="text" className='w-full p-4 border rounded-md'/>
-                    </div>
-
-                    <div className='flex flex-row mb-2 gap-2'>
-                        <div className='flex flex-col'>
-                            <label className='text-xs text-slate-400'>Expiry Date</label>
-                            <input type="text" className='w-full p-4 border rounded-md'/>
-                        </div>
-                        <div className='flex flex-col'>
-                            <label className='text-xs text-slate-400'>CVV</label>
-                            <input type="text" className='w-full p-4 border rounded-md'/>
-                        </div>
-                    </div>
-
-                    <button className='bg-[#FFD02A] p-4 text-black my-4 w-full'>
-                        Pay Now
-                    </button>
-                </form>
-            </div>
-        ) : (
-            <div className='w-full flex flex-col py-8 text-sm'>
-                <h3 className='text-lg italic mb-4'>Pay With M-Pesa</h3>
-                <p className=''>
-                    You will receive an stk push notification on your phone, please enter your pin and approve the transaction
-                </p>
-
-                <form className='py-4 gap-2'>
-                    <div className='flex flex-col mb-2'>
-                        <label className='text-xs text-slate-400'>Phone Number</label>
-                        <input type="text" className='w-full p-4 border rounded-md'/>
-                    </div>
-
-                    <button onClick={(e) => handleClick(e)} className='bg-[#FFD02A] p-4 text-black my-4 w-full'>
-                        Pay Now
-                    </button>
-                </form>
-            </div>
-            
-        )} */}
         
     </div>
   )
