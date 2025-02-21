@@ -23,68 +23,67 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
     const [availability, setAvailability] = useState('');
     const [loading, setLoading] = useState(false);
 
+    console.log("picture", picture) 
+
     const props = {
-        action: '//jsonplaceholder.typicode.com/posts/',
-        listType: 'picture',
-        accept: 'image/*',
-        beforeUpload: (file) => {
-          setPicture(file);
-          return false; // Prevent automatic upload
-        },
-        onRemove: () => {
-          setPicture(null);
-        },
-        previewFile(file) {
-          console.log('Your upload file:', file);
-          // Your process logic. Here we just mock to the same file
-          return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
-            method: 'POST',
-            body: file,
-          })
-            .then((res) => res.json())
-            .then(({ thumbnail }) => thumbnail);
-        },
+      listType: 'picture',
+      accept: 'image/*',
+      beforeUpload: (file) => {
+        setPicture(file.originFileObj); // ✅ Extract the actual file
+        return false; // Prevent automatic upload
+      },
+      onRemove: () => {
+        setPicture(null);
+      },
     };
 
     const handleAdd = async () => {
-        try {
-            if (
-                !title ||
-                !description ||
-                !price ||
-                !picture ||
-                !numberOfAttendees ||
-                !location ||
-                !duration ||
-                !category ||
-                !availability
-            ) {
-                message.error('Please fill in all the fields');
-                return;
-            }
-
-            const details = {
-                title: title,
-                description: description,
-                price: price,
-                picture: picture,
-                number_of_attendees: numberOfAttendees,
-                location: location,
-                duration: duration,
-                category: category,
-                availability: availability,
-            }
-            
-            const {data} = await axios.post(`${API_URL}/service/add`, details)
-            if (data) {
-                message.success('Service added successfully')
-                setIsOpen(false);
-                setRefresh(true);
-            }
-        } catch (error) {
-            message.error('An error occured unable to add service')
-            console.log(error)
+      try {
+        if (
+          !title ||
+          !description ||
+          !price ||
+          !picture ||
+          !numberOfAttendees ||
+          !location ||
+          !duration ||
+          !category ||
+          !availability
+        ) {
+          message.error('Please fill in all the fields');
+          return;
         }
+
+        setLoading(true);
+
+        // Create a FormData object to send the image file
+        const formData = new FormData();
+        formData.append("file", picture);
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('number_of_attendees', numberOfAttendees);
+        formData.append('location', location);
+        formData.append('duration', duration);
+        formData.append('category', category);
+        formData.append('availability', availability);
+
+        const { data } = await axios.post(`${API_URL}/service/add`, formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (data) {
+          message.success('Service added successfully');
+          setIsOpen(false);
+          setRefresh(true);
+          setLoading(false);
+        }
+      } catch (error) {
+        message.error('An error occured unable to add service')
+        console.log(error)
+      }
     }
 
     const handleUpdate = async () => {
