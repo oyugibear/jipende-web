@@ -131,7 +131,7 @@ export default function page() {
                 <input type="text" value={therapyName} onChange={(e) => setTherapyName(e.target.value)} className='w-full max-w-[500px] px-4 py-2 border rounded-sm'/>
               </div>
             </div>
-            <button onClick={(e) => handleAddLink(e)} className='px-4 py-2 bg-green-500 hover:text-white rounded-md'>
+            <button onClick={(e) => handleAddLink(e)} className='button'>
               Save &amp; Send
             </button>
           </div>
@@ -155,7 +155,7 @@ export default function page() {
                 <input type="text" value={newLink} onChange={(e) => setNewLink(e.target.value)} className='w-full max-w-[500px] px-4 py-2 border rounded-sm'/>
               </div>
             </div>
-            <button onClick={(e) => handleReschedule(e)} className='px-4 py-2 bg-green-500 hover:text-white rounded-md'>
+            <button onClick={(e) => handleReschedule(e)} className='button'>
               Save &amp; Send
             </button>
           </div>
@@ -172,7 +172,7 @@ export default function page() {
               </div>
               
             </div>
-            <button onClick={(e) => handleCompleteBooking(e)} className='px-4 py-2 bg-green-500 hover:text-white rounded-md'>
+            <button onClick={(e) => handleCompleteBooking(e)} className='button'>
               Save
             </button>
           </div>

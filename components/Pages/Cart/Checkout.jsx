@@ -9,15 +9,10 @@ import { useUser } from '@/context'
 import { reset } from '@/app/GlobalRedux/Features/cart/CartSlice'; 
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function Checkout({cart}) {
 
-    const [paymnetOptionClicked, setPaymentOptionClicked] = useState('Mpesa')
-    const [phoneNumber, setPhoneNumber] = useState('')
-    const [cardName, setCardName] = useState('')
-    const [cardNumber, setCardNumber] = useState('')
-    const [expiryDate, setExpiryDate] = useState('')
-    const [cvv, setCvv] = useState('')
     // console.log(cart)
 
     let tax = cart.totalAmount * 0.16
@@ -28,32 +23,26 @@ export default function Checkout({cart}) {
 
     const handleClick = async (e) => {
         e.preventDefault();
-
+        
         try {
-            const { data } = await axios.post(`${API_URL}/payment/add`, {
+            const { data } = await axios.post(`${API_URL}/booking/add`, {
                 services: cart.products,
                 final_amount: cart.totalAmount,
                 vat: tax,
-                paymentType: paymnetOptionClicked,
-                phoneNumber: phoneNumber || null,
-                cardName: cardName || null,
-                cardNumber: cardNumber || null,
-                expiryDate: expiryDate || null,
-                cvv: cvv || null,
                 postedBy: user._id,
                 user: user
             })
-            if(data){
-                message.success("Your Order has been completed")
-                setPaymentOptionClicked('Mpesa');
-                setPhoneNumber('');
-                setCardName('');
-                setCardNumber('');
-                setExpiryDate('');
-                setCvv('');
+            if (data) {
+                message.success("Kindly pay for your order to proceed");
                 dispatch(reset());
-                router.push('/sessions')
-            }
+                
+                console.log("Payment link", data.paymentLink)
+                if (data.data.paymentLink) {
+                    window.location.href = data.data.paymentLink; // Open the payment link in a new tab
+                } else {
+                  message.error("Payment link is not available");
+                }
+              }
         } catch (error) {
             console.log(error)
             message.error("Your Payment Has Not Gone Through")   
@@ -93,9 +82,17 @@ export default function Checkout({cart}) {
             {/* <button onClick={() => setPaymentOptionClicked("Card")} className='bg-black text-sm w-full text-white py-4'>
                 Pay With Card
             </button> */}
-            <button onClick={() => setPaymentOptionClicked("Mpesa")} className='bg-[#FFD02A] text-sm w-full text-black py-4'>
-                Pay Now
-            </button>
+            {!user ? (
+                <Link href='/auth/signin'>
+                    <button className='bg-[#FFD02A] text-sm w-full px-4 text-black py-4'>
+                        Sign in to continue
+                    </button>
+                </Link>
+            ) : (
+                <button onClick={(e) => handleClick(e)} className='bg-[#FFD02A] text-sm w-full text-black py-4'>
+                    Pay Now
+                </button>
+            )}
         </div>
         
     </div>

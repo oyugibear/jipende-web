@@ -6,8 +6,9 @@ import { Button, Upload, message } from 'antd'
 import axios from 'axios'
 import { BsDownload } from 'react-icons/bs'
 import { useUser } from '@/context'
+import ServicesList from '@/app/admin/ServicesList'
 
-export default function WebsiteControls() {
+export default function WebsiteControls({services, blogs}) {
 
     const { user } = useUser()
 
@@ -98,106 +99,92 @@ export default function WebsiteControls() {
         }
     }
 
+    console.log("services: ", services)
+    console.log("blogs: ", blogs)
+
     return (
         <div className='flex flex-col py-12 items-center justify-center w-full'>
         <h2 className='head-text-2'>Website Controls</h2>
         <div className='flex flex-col md:flex-row items-center my-4 gap-4'>
             <button onClick={() => setClick('Service')} className='button'>
-                Add New Service
-            </button>
-            <button onClick={() => setClick('Booking')} className='button'>
-                Add New Booking
+                Manage Services
             </button>
             <button onClick={() => setClick('Blogs')} className='button'>
-                Add New Blog
+                Manage Blogs
             </button>
         </div>
 
         { click == 'Service' ? (
-            <div className='flex flex-col my-6 w-full'>
-                <form onSubmit={(e) => handleSubmit(e)} className='w-full '>
-                    <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Title</label>
-                            <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" className='admin-input'/>
-                        </div>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Description</label>
-                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} type="text" className='admin-input'/>
-                        </div>
-                    </div>
-                    <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Max number of attendants</label>
-                            <input value={attendees} onChange={(e) => setAttendees(e.target.value)} type="number" className='admin-input'/>
-                        </div>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Location (type online if online)</label>
-                            <input value={location} onChange={(e) => setLocation(e.target.value)} type="text" className='admin-input'/>
-                        </div>
-                    </div>
-                    <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Time Duration (mins)</label>
-                            <input value={duration} onChange={(e) => setDuration(e.target.value)} type="number" className='admin-input'/>
-                        </div>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Category</label>
-                            <select placeholder='notice' id='notice' value={category} onChange={(e) => setCategory(e.target.value)} className='admin-input'>
-                                <option value={"Outdoors Group Therapy"}>Outdoors Group Therapy</option>
-                                <option value={"Outdoors Indiviual Therapy"}>Outdoors Indiviual Therapy</option>
-                                <option value={"Online Indivual Therapy"}>Online Indivual Therap </option>
-                                <option value={"Online Group Therapy"}>Online Group Therapy </option>
-                                <option value={"In-Person Group Therapy"}>In-Person Group Therapy</option>
-                                <option value={"In-Person Indivual Therapy"}>In-Person Indivual Therapy</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Availability</label>
-                            <input value={availability} onChange={(e) => setAvailability(e.target.value)} type="text" className='admin-input'/>
-                        </div>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Price</label>
-                            <input value={price} onChange={(e) => setPrice(e.target.value)} type="number" className='admin-input'/>
-                        </div>
-                    </div>
-                    <div className='flex flex-col my-8'>
-                        <label className='text-xs text-slate-400'>Upload Cover Imgae</label>
-                        <Upload
-                            beforeUpload={(file) => {
-                                setPicture(file);
-                                return false; // Prevent actual upload for now
-                            }}
-                            listType="picture"
-                        >
-                            <Button icon={<BsDownload />}>Upload</Button>
-                        </Upload>
-                    </div>
+            <ServicesList services={services}/>
+            // <div className='flex flex-col my-6 w-full'>
+            //     <form onSubmit={(e) => handleSubmit(e)} className='w-full '>
+            //         <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Title</label>
+            //                 <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" className='admin-input'/>
+            //             </div>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Description</label>
+            //                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} type="text" className='admin-input'/>
+            //             </div>
+            //         </div>
+            //         <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Max number of attendants</label>
+            //                 <input value={attendees} onChange={(e) => setAttendees(e.target.value)} type="number" className='admin-input'/>
+            //             </div>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Location (type online if online)</label>
+            //                 <input value={location} onChange={(e) => setLocation(e.target.value)} type="text" className='admin-input'/>
+            //             </div>
+            //         </div>
+            //         <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Time Duration (mins)</label>
+            //                 <input value={duration} onChange={(e) => setDuration(e.target.value)} type="number" className='admin-input'/>
+            //             </div>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Category</label>
+            //                 <select placeholder='notice' id='notice' value={category} onChange={(e) => setCategory(e.target.value)} className='admin-input'>
+            //                     <option value={"Outdoors Group Therapy"}>Outdoors Group Therapy</option>
+            //                     <option value={"Outdoors Indiviual Therapy"}>Outdoors Indiviual Therapy</option>
+            //                     <option value={"Online Indivual Therapy"}>Online Indivual Therap </option>
+            //                     <option value={"Online Group Therapy"}>Online Group Therapy </option>
+            //                     <option value={"In-Person Group Therapy"}>In-Person Group Therapy</option>
+            //                     <option value={"In-Person Indivual Therapy"}>In-Person Indivual Therapy</option>
+            //                 </select>
+            //             </div>
+            //         </div>
+            //         <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Availability</label>
+            //                 <input value={availability} onChange={(e) => setAvailability(e.target.value)} type="text" className='admin-input'/>
+            //             </div>
+            //             <div className='flex flex-col w-full'>
+            //                 <label className='text-xs text-slate-400'>Price</label>
+            //                 <input value={price} onChange={(e) => setPrice(e.target.value)} type="number" className='admin-input'/>
+            //             </div>
+            //         </div>
+            //         <div className='flex flex-col my-8'>
+            //             <label className='text-xs text-slate-400'>Upload Cover Imgae</label>
+            //             <Upload
+            //                 beforeUpload={(file) => {
+            //                     setPicture(file);
+            //                     return false; // Prevent actual upload for now
+            //                 }}
+            //                 listType="picture"
+            //             >
+            //                 <Button icon={<BsDownload />}>Upload</Button>
+            //             </Upload>
+            //         </div>
 
-                    <button className='button mt-4'>
-                        Submit
-                    </button>
-                </form>
-            </div>
+            //         <button className='button mt-4'>
+            //             Submit
+            //         </button>
+            //     </form>
+            // </div>
         
-        ) : click == 'Booking' ? (
-            <div className='flex flex-col my-6 w-full'>
-                <form onSubmit={(e) => handleSubmit(e)} className='w-full '>
-                    <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Title</label>
-                            <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" className='admin-input'/>
-                        </div>
-                        <div className='flex flex-col w-full'>
-                            <label className='text-xs text-slate-400'>Description</label>
-                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} type="text" className='admin-input'/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        ) : click == 'Blogs' ? (
+        ) :  click == 'Blogs' ? (
             <div className='flex flex-col my-6 w-full'>
                 <form onSubmit={handleBlogSubmit} className='w-full '>
                     <div className='flex flex-col md:flex-col gap-4 py-4 w-full'>
@@ -217,7 +204,7 @@ export default function WebsiteControls() {
                         </div>
                         <div className='flex flex-row gap-6'>
                             <div className='flex flex-col w-full'>
-                                <label className='text-xs text-slate-400'>Publisher</label>
+                                <label className='text-xs text-slate-400'>Publisher Name</label>
                                 <input value={publisher} onChange={(e) => setPublisher(e.target.value)} type="text" className='admin-input'/>
                             </div>
                             <div className='flex flex-col w-full'>
@@ -248,6 +235,7 @@ export default function WebsiteControls() {
             </div>
         ) : null}
 
+        
 
     </div>
     )

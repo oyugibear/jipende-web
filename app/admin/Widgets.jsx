@@ -3,9 +3,9 @@ import React from 'react'
 import { BsCoin, BsGraphUp, BsPeople, BsTypeH3 } from 'react-icons/bs'
 
 export default function Widgets({users, services, bookings, payments}) {
-
-    let total = payments?.data?.reduce((acc, payment) => acc + payment.total, 0);
-    console.log(total);
+    // console.log(payments)
+    let total = payments?.data?.reduce((acc, payment) => acc + payment.final_amount_invoiced, 0);
+    // console.log(total);
   return (
     <div className='flex flex-wrap items-center gap-4 w-full justify-evenly my-12'>
         <div className='flex w-full flex-col items-start max-w-[300px] bg-yellow-200 border rounded-md py-2 px-4'>

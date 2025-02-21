@@ -23,11 +23,11 @@ export default function page() {
         }
     }, [user])
 
-    console.log(user)
+    console.log(bookings)
     const onlineBookings = bookings?.data.filter(booking => booking.services.some(service => service.location == "Online"));
     const offlineBookings = bookings?.data.filter(booking => booking.services.some(service => service.location != "Online"));
     
-    console.log(onlineBookings)
+    console.log("onlineBookings", onlineBookings)
   return (
     <div className='flex flex-col w-full'>
         <Hero title={'All Your Sessions'} description={'Below you will find all the sessions you have paid for.'}/>
@@ -45,17 +45,21 @@ export default function page() {
 
             <div className='flex flex-col w-full my-8 max-w-[1240px]'>
                 { selectedSession == "Online" ? (
-                <div className='flex flex-col w-full'>
-                    {onlineBookings?.map((booking) => (
-                        <SessionCard title={booking.services[0].title} description={booking.services[0].description_of_service} date='23/09/23' time='20:00'/>
-                    ))}
-                </div>
-                ) : selectedSession == "In Person" ? (
-                <div className='flex flex-col w-full'>
-                    {offlineBookings?.map((booking) => (
-                        <SessionCard title={booking.services[0].title} description={booking.services[0].description_of_service} date='23/09/23' time='20:00'/>
-                    ))}
-                </div>
+                    <div className='flex flex-col w-full'>
+                        {onlineBookings?.map((booking) => (
+                            booking?.services.map(service => (
+                                <SessionCard data={service}/>
+                            ))
+                        ))}
+                    </div>
+                    ) : selectedSession == "In Person" ? (
+                    <div className='flex flex-col w-full'>
+                        {offlineBookings?.map((booking) => (
+                            booking.services.map(service => (
+                                <SessionCard data={service}/>
+                            ))
+                        ))}
+                    </div>
                 ) : null}
             </div>
 

@@ -6,7 +6,7 @@ export default function BookingCard({booking}) {
     <div className='w-fit flex flex-wrap items-center border justify-evenly gap-8 rounded-lg p-4'>
       <div className='flex flex-row gap-2'>
         <p className='text-purple-500'> Client: </p>
-        <p> booking </p>
+        <p> {booking.postedBy.first_name} {booking.postedBy.second_name} </p>
       </div>
       <div className='flex flex-row gap-2'>
         <p className='text-purple-500'> Date: </p>
@@ -18,7 +18,7 @@ export default function BookingCard({booking}) {
       </div>
       <div className='flex flex-row gap-2'>
         <p className='text-purple-500'> Payment Staus: </p>
-        <p> {booking?.paymentStatus == true ? "Paid" : "Not Paid"} </p>
+        <p> {booking?.paymentInfo?.payment_status} </p>
       </div>
       <div className='flex flex-row gap-2'>
         <p className='text-purple-500'> Booking Staus: </p>

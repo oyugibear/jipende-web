@@ -1,4 +1,7 @@
+'use client'
+
 import PictureHero from '@/components/Constants/PictureHero'
+import Link from 'next/link'
 import React from 'react'
 
 export default function page() {
@@ -7,7 +10,18 @@ export default function page() {
         <PictureHero title="Terms Of Service" description={""} imgPath="/assets/Stockimgs/contract.png" />
         <div className="max-w-4xl mx-auto p-6 text-gray-900">
 
-            <div className="mb-6">
+            <div className='mb-6 flex flex-row gap-6 my-4'>
+                <Link href="/forms">
+                    <button className='w-full h-full px-4 py- 2 bg-yellow-500 rounded-lg uppercase text-black text-sm font-bold my-4'>
+                        Adult Intake Form
+                    </button>
+                </Link>
+                {/* <button className='px-4 py-2 bg-yellow-500 rounded-lg uppercase text-black text-sm font-bold my-4'>
+                    Adult Intake Form
+                </button> */}
+            </div>
+
+            <div className="py-6">
                 <h3 className="text-lg font-bold">INTRODUCTION</h3>
                 <p>
                 Africa Jipende Wellness is a Private Limited Company duly registered and incorporated under the Companies Act, 2015 of the Republic of Kenya.
@@ -235,14 +249,7 @@ export default function page() {
                 </p>
             </div>
 
-            <div className='mb-6 flex flex-row gap-6'>
-                <button className='px-4 py-2 bg-yellow-500 rounded-lg uppercase text-black text-sm font-bold my-4'>
-                    Adult Intake Form
-                </button>
-                <button className='px-4 py-2 bg-yellow-500 rounded-lg uppercase text-black text-sm font-bold my-4'>
-                    Adult Intake Form
-                </button>
-            </div>
+           
 
             <div className="border-t border-gray-300 pt-4">
                 <p className="text-sm text-center text-gray-600">
