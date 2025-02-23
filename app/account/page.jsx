@@ -37,7 +37,7 @@ export default function Page() {
   return (
     <div className='w-full flex flex-col items-center justify-center'>
       <Hero title="Your Account" description="Manage all your sessions from here"/>
-      <Information data={compiledData}/>
+      <Information data={compiledData}/> 
     </div>
   )
 }
