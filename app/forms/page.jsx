@@ -1,6 +1,6 @@
 'use client'
 
-import BasicInputs from '@/components/Constants/fields/basicInputs'
+import BasicInputs from '@/components/Constants/fields/BasicInputs'
 import BasicRadioBox from '@/components/Constants/fields/BasicRadioBox'
 import BasicTextArea from '@/components/Constants/fields/BasicTextArea'
 import MultipleChoiceRadio from '@/components/Constants/fields/MultipleChoiceRadio'

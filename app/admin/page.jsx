@@ -44,6 +44,8 @@ export default function page() {
             router.push("/")
         }
     }, [user])
+
+    const [refresh, setRefresh] = useState(false);
     
     const [users, setUsers] = useState([]);
     const [services, setServices] = useState([]);
@@ -57,7 +59,7 @@ export default function page() {
         getBlogs().then(data => setBlogs(data));
         getBookings().then(data => setBookings(data));
         getPayments().then(data => setPayments(data));
-    }, []);
+    }, [refresh]);
 
     console.log(users)
     
@@ -67,7 +69,7 @@ export default function page() {
         <div className='max-w-[1520px] w-full  px-4 flex flex-col'>
             <Widgets users={users} services={services} payments={payments} bookings={bookings}/>
             <hr />
-            <WebsiteControls services={services} blogs={blogs}/>
+            <WebsiteControls services={services} blogs={blogs} setRefresh={setRefresh}/>
             <hr />
             <Sessions bookings={bookings}/>
             <hr />

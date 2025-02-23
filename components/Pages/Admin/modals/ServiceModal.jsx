@@ -6,7 +6,6 @@ import { Button, message, Modal, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useState } from 'react'
 import BasicSelectArea from '@/components/Constants/fields/BasicSelectArea';
-import { Basic } from 'next/font/google';
 import axios from 'axios';
 import { API_URL } from '@/config/api.config';
 
@@ -23,18 +22,18 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
     const [availability, setAvailability] = useState('');
     const [loading, setLoading] = useState(false);
 
-    console.log("picture", picture) 
-
+  
     const props = {
-      listType: 'picture',
-      accept: 'image/*',
-      beforeUpload: (file) => {
-        setPicture(file.originFileObj); // ✅ Extract the actual file
-        return false; // Prevent automatic upload
-      },
-      onRemove: () => {
-        setPicture(null);
-      },
+        listType: "picture",
+        accept: "image/*",
+        onChange(info) {
+          console.log("info", info.file);
+          setPicture(info.file); // ✅ Use `info.file` directly
+        },
+        onRemove: () => {
+          setPicture(null);
+        },
+        beforeUpload: () => false, // Prevent automatic upload
     };
 
     const handleAdd = async () => {
@@ -55,7 +54,7 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
         }
 
         setLoading(true);
-
+        console.log("Uploading file:", picture);
         // Create a FormData object to send the image file
         const formData = new FormData();
         formData.append("file", picture);
@@ -86,48 +85,50 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
       }
     }
 
+
     const handleUpdate = async () => {
         try {
-          const updatedData = {};
-          if (title !== serviceDetails?.title && title !== '') {
-            updatedData.title = title;
-          }
-          if (description !== serviceDetails?.description && description !== '') {
-            updatedData.description = description;
-          }
-          if (price !== serviceDetails?.price && price !== '') {
-            updatedData.price = price;
-          }
-          if (picture !== serviceDetails?.picture && picture !== null) {
-            updatedData.picture = picture;
-          }
-          if (numberOfAttendees !== serviceDetails?.number_of_attendees && numberOfAttendees !== '') {
-            updatedData.number_of_attendees = numberOfAttendees;
-          }
-          if (location !== serviceDetails?.location && location !== '') {
-            updatedData.location = location;
-          }
-          if (duration !== serviceDetails?.duration && duration !== '') {
-            updatedData.duration = duration;
-          }
-          if (category !== serviceDetails?.category && category !== '') {
-            updatedData.category = category;
-          }
-          if (availability !== serviceDetails?.availability && availability !== '') {
-            updatedData.availability = availability;
-          }
-    
-          if (Object.keys(updatedData).length === 0) {
-            message.info('No changes to update');
-            return;
-          }
-    
-          const { data } = await axios.put(`${API_URL}/service/${serviceDetails.id}`, updatedData);
-          if (data) {
-            message.success('Service updated successfully');
-            setRefresh(true);
-            setIsOpen(false);
-          }
+            const updatedData = new FormData();
+            if (title !== serviceDetails?.title && title !== '') {
+              updatedData.append('title', title);
+            }
+            if (description !== serviceDetails?.description && description !== '') {
+              updatedData.append('description', description);
+            }
+            if (price !== serviceDetails?.price && price !== '') {
+              updatedData.append('price', price);
+            }
+            if (picture !== serviceDetails?.picture && picture !== null) {
+              updatedData.append('file', picture);
+            }
+            if (numberOfAttendees !== serviceDetails?.number_of_attendees && numberOfAttendees !== '') {
+              updatedData.append('number_of_attendees', numberOfAttendees);
+            }
+            if (location !== serviceDetails?.location && location !== '') {
+              updatedData.append('location', location);
+            }
+            if (duration !== serviceDetails?.duration && duration !== '') {
+              updatedData.append('duration', duration);
+            }
+            if (category !== serviceDetails?.category && category !== '') {
+              updatedData.append('category', category);
+            }
+            if (availability !== serviceDetails?.availability && availability !== '') {
+              updatedData.append('availability', availability);
+            }
+            
+            console.log(updatedData)
+            if (!Array.from(updatedData.entries()).length) {
+                message.info('No changes to update');
+                return;
+            }
+        
+            const { data } = await axios.put(`${API_URL}/service/${serviceDetails?._id}`, updatedData);
+            if (data) {
+                message.success('Service updated successfully');
+                setRefresh(true);
+                setIsOpen(false);
+            }
         } catch (error) {
           message.error('An error occurred, unable to update service');
           console.log(error);
@@ -180,7 +181,7 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
         )
     }
     return (
-            <Modal title="Edit Service" onOk={handleUpdate} open={isOpen} onCancel={handleCancel} footer={<Button key="submit" color="blue" variant="solid" loading={loading} onClick={handleAdd}> Submit</Button>}>
+            <Modal title="Edit Service" onOk={handleUpdate} open={isOpen} onCancel={handleCancel} footer={<Button key="submit" color="blue" variant="solid" loading={loading} onClick={handleUpdate}> Submit</Button>}>
                 <div className='flex flex-col gap-4 overflow-x-hidden'>
                     <BasicInputs label='Title' value={title} setValue={setTitle} />
                     <BasicInputs label='Price' value={price} setValue={setPrice} />

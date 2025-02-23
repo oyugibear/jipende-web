@@ -5,11 +5,12 @@ import OverflowBtn from '@/components/Constants/OverflowBtn'
 import Image from 'next/image'
 import RecieptCard from '@/components/Pages/Account/RecieptCard'
 import { PiDownload, PiPen } from 'react-icons/pi'
+import { message } from 'antd'
 
-export default function Information() {
+export default function Information({data}) {
 
     const [selected, setSelected] = useState('Reciepts')
-    const [selectedReciept, setSelectedReciept] = useState('Invoices')
+    const [selectedReciept, setSelectedReciept] = useState('Reciepts')
   
     const [editName, setEditName] = useState(false)
     const [name, setName] = useState('')
@@ -24,12 +25,23 @@ export default function Information() {
     const [editPassword, setEditPassword] = useState(false)
     const [password, setPassword] = useState('')
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
+    const handleDeleteAccount = () => { 
+        message.error('You will be email soon about deleting your account')
+    }
 
   return (
     <div className='flex flex-col my-12 w-full md:max-w-[900px] '>
         <div className='flex flex-row items-center md:justify-evenly px-4 pb-4 md:pb-0 md:px-0 w-full gap-4 overflow-x-auto'>
             <OverflowBtn setSelected={setSelected} selected={selected} title='Reciepts' />
-            <OverflowBtn setSelected={setSelected} selected={selected} title='Edit Account Info' />
+            {/* <OverflowBtn setSelected={setSelected} selected={selected} title='Edit Account Info' /> */}
             <OverflowBtn setSelected={setSelected} selected={selected} title='Account Setting' />
         </div>
 
@@ -37,10 +49,10 @@ export default function Information() {
         { selected == 'Reciepts' ? (
             <div className='flex flex-col items-center w-full'>
             <div className='flex flex-row gap-4'>
-                <div onClick={() => setSelectedReciept("Invoices")} className='flex flex-col justify-center items-center'>
+                {/* <div onClick={() => setSelectedReciept("Invoices")} className='flex flex-col justify-center items-center'>
                 <p>Invoices</p>
                 <hr className={`${selectedReciept == "Invoices" && "block border border-yellow-400  max-w-[30px] w-full "} `}/>
-                </div>
+                </div> */}
                 <div onClick={() => setSelectedReciept("Reciepts")} className='flex flex-col justify-center items-center'>
                 <p>Reciepts</p>
                 <hr className={`${selectedReciept == "Reciepts" && "block  border border-yellow-400  max-w-[30px] w-full"} `}/>
@@ -49,15 +61,23 @@ export default function Information() {
             
             <div className='flex flex-col w-full my-8'>
                 { selectedReciept == "Invoices" ? (
-                <div className='flex flex-col w-full'>
-                    <RecieptCard title='Invoice for in person therapy' date='12/12/23'/>
-                    <RecieptCard title='Invoice for in person therapy' date='12/12/23'/>
-                </div>
+                    <div className='flex flex-col w-full'>
+                        <RecieptCard title='Invoice for in person therapy' link='/' date='12/12/23'/>
+                    </div>
                 ) : (
-                <div className='flex flex-col w-full'>
-                    <RecieptCard title='Reciept for in person therapy' date='12/12/23'/>
-                    <RecieptCard title='Reciept for in person therapy' date='12/12/23'/>
-                </div>
+                    <div className='flex flex-col w-full'>
+                        {data?.bookings?.data?.map((booking) => (
+                            data?.payments?.data?.map((payment) => (
+                                <RecieptCard
+                                key={payment?.id} // Ensure each element has a unique key
+                                title={`Receipt For Therapy On ${formatDate(booking?.createdAt)}`}
+                                link={payment?.receipt_pdf}
+                                date={`${booking?.services[0]?.date} ${booking?.services[0]?.time}`}
+                                />
+                            ))
+                        ))}
+                
+                    </div>
                 )}
             </div>
             </div>
@@ -183,8 +203,8 @@ export default function Information() {
                 <p className='text-slate-400 my-4'>
                 By deleting your account you will be deleting all the information you have given us through this website
                 </p>
-                <button className='px-4 py-2 w-full md:w-fit bg-red-600 text-white text-sm rounded-md mt-4'>
-                Delete Now
+                <button onClick={handleDeleteAccount} className='px-4 py-2 w-full md:w-fit bg-red-600 text-white text-sm rounded-md mt-4'>
+                    Delete Now
                 </button>
             </div>
             </div>

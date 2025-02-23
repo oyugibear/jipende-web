@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { IoMdPeople } from 'react-icons/io'
 import { PiClockFill } from 'react-icons/pi'
@@ -12,7 +11,7 @@ import axios from 'axios'
 import { API_URL } from '@/config/api.config'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '@/app/GlobalRedux/Features/cart/CartSlice'
-import { Modal, message } from 'antd'
+import { Modal, message, Image } from 'antd'
 
 
 async function getService(productId) {
@@ -76,8 +75,8 @@ export default function page({
                 </div>
 
                 <div className='flex flex-col md:flex-row items-center justify-evenly mt-8 p-4'>
-                    <div className=''>
-                        <Image src='/assets/Product/productImg.png' alt='product Image' width={647} height={390} className='' />
+                    <div className='md:px-4'>
+                        <Image src={data.picture} alt='product Image' className="w-full lg:max-w-[60vw] h-[40vh] object-cover " />
                     </div>
 
                     <div className='flex flex-col mx-4 w-full'>
@@ -88,7 +87,7 @@ export default function page({
                         <div className='flex flex-row items-center mb-4'>
                             <div className='flex flex-row items-center'>
                                 <PiClockFill size={25} className='text-yellow-500'/>
-                                <p className='text-sm pl-2'>{data?.duration} Minuites</p>
+                                <p className='text-sm pl-2'>{data?.duration}</p>
                             </div>
                             <div className='flex flex-row items-center pl-6'>
                                 <IoMdPeople size={25} className='text-yellow-500'/>
@@ -111,8 +110,8 @@ export default function page({
                 </div>
             </div>
 
-            <ReviewList />
-            <RelatedServices />
+            {/* <ReviewList /> */}
+            {/* <RelatedServices /> */}
 
             <Modal open={isModalOpen} onCancel={handleCancel} footer={[<button onClick={handleClick}  className={`bg-yellow-500 text-white font-bold rounded-lg py-2 px-4 ${!date && 'bg-gray-400 cursor-default'}`}> Submit </button>]} >
                 <div className='flex flex-col items-center my-4 py-8'>

@@ -10,24 +10,34 @@ async function getBookings(id){
   const res = await fetch(`${API_URL}/bookings/user/${id}`,  {cache: "no-store"})
   return res.json()
 }
+async function getPayments(id){
+  const res = await fetch(`${API_URL}/payments/user/${id}`,  {cache: "no-store"})
+  return res.json()
+}
 
 export default function Page() {
   const { user } = useUser()
   const [bookings, setBookings] = useState(null)
+  const [payments, setPayments] = useState(null)
 
   useEffect(() => {
     if (user) {
       getBookings(user._id).then(setBookings)
+      getPayments(user._id).then(setPayments)
     }
   }, [user])
 
-  console.log(user)
-  console.log(bookings)
+  
+  const compiledData = {
+    bookings: bookings,
+    payments: payments
+  }
+  console.log("data", compiledData)
 
   return (
     <div className='w-full flex flex-col items-center justify-center'>
       <Hero title="Your Account" description="Manage all your sessions from here"/>
-      <Information bookings={bookings}/>
+      <Information data={compiledData}/>
     </div>
   )
 }

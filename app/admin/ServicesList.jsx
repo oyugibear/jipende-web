@@ -5,7 +5,7 @@ import ServiceModal from '@/components/Pages/Admin/modals/ServiceModal'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-export default function ServicesList({services}) {
+export default function ServicesList({services, setRefresh}) {
 
     const columns = [
         {
@@ -97,7 +97,7 @@ export default function ServicesList({services}) {
         <SimpleTable data={fixedData} columns={columns} scroll={{ x: 1000 }}/>
         </div>
         { isModalOpen && (
-            <ServiceModal type='add' setIsOpen={setIsModalOpen} isOpen={isModalOpen} />
+            <ServiceModal type='add' setIsOpen={setIsModalOpen} isOpen={isModalOpen} setRefresh={setRefresh}/>
         )}
     </div>
   )

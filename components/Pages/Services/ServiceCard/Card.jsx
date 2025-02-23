@@ -1,10 +1,14 @@
+"use client"
+
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Card({service}) {
 
-    // console.log(service)
+    const imageSrc = service?.picture
+    ? service.picture
+    : '/assets/Services/cardImg.png';
   return (
     <Link href={`/services/${service?._id}`}>
         <div className='flex flex-col max-w-[400px] items-center mb-4 my-4 md:my-0'>
@@ -19,11 +23,11 @@ export default function Card({service}) {
                         </div>
                     </div>
                 </div>
-                <Image src='/assets/Services/cardImg.png' alt='Service Card Image' width={442} height={223} className='max-h-[223px] object-cover'/>
+                <Image src={imageSrc} alt='Service Card Image' width={442} height={223} className='max-h-[223px] object-cover'/>
             </div>
             <p className='text-lg my-4 font-semibold'>{service?.title}</p>
             <p className='text-sm'>
-                {service?.description || service?.description_of_service }
+                {(service?.description?.substring(0, 100) + "..." || service?.description_of_service?.substring(0, 10) + "...")}
             </p>
         </div>
     </Link>

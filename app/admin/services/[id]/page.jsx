@@ -2,9 +2,8 @@
 
 import ServiceModal from '@/components/Pages/Admin/modals/ServiceModal'
 import { API_URL } from '@/config/api.config'
-import { Descriptions, Modal } from 'antd'
+import { Descriptions, Image, Modal } from 'antd'
 import axios from 'axios'
-import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -69,7 +68,7 @@ export default function page({}) {
         {
             key: '7',
             label: 'Description',
-            children: service?.description_of_service
+            children: service?.description
         },
 
     ]
@@ -90,9 +89,10 @@ export default function page({}) {
             <div className='max-w-[1440px] w-full flex flex-col'>
                 <h1 className='text-xl font-medium'>Service Information</h1>
                 <p>Below are are all the details concerning this service</p>
-                <div className='my-6'>
+                <div className='my-6 w-full'>
                     {/* <Image src={service?.picture} alt='service image' width={216} height={145} className='w-full md:max-w-[180px]'/> */}
-                    <div className='w-full flex flex-row items-end justify-end my-4'>
+                    <div className='w-full flex flex-row items-end justify-between my-4'>
+                        <Image src={service?.picture}  alt='service image' className='w-full aspect-auto max-w-sm'/>
                         <button  onClick={showModal} className='button hover:bg-yellow-300 text-sm font-bold'>
                             Edit
                         </button>
@@ -100,7 +100,7 @@ export default function page({}) {
                     <Descriptions bordered items={items} />
                 </div>
             </div>
-            
+            <ServiceModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} type='edit' serviceDetails={service} setRefresh={setRefresh}/>
         </div>
     )
 }

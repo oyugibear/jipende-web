@@ -58,6 +58,16 @@ export default function Navbar() {
         {
           key: '2',
           label: (
+            <Link href='/admin'>
+                <p className=''>
+                Admin
+                </p>
+            </Link>
+          ),
+        },
+        {
+          key: '2',
+          label: (
             <button  onClick={handleLogout} className='text-red-600 w-full rounded-lg m-0 '>
                 Log Out
             </button>

@@ -8,7 +8,7 @@ import { BsDownload } from 'react-icons/bs'
 import { useUser } from '@/context'
 import ServicesList from '@/app/admin/ServicesList'
 
-export default function WebsiteControls({services, blogs}) {
+export default function WebsiteControls({services, blogs, setRefresh}) {
 
     const { user } = useUser()
 
@@ -30,47 +30,6 @@ export default function WebsiteControls({services, blogs}) {
     const [publisher, setPublisher] = useState('')
     const [blogText, setBlogText] = useState('')
     const [publisherLink, setPublisherLink] = useState('')
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        
-        // const formData = new FormData();
-        // formData.append("title", title);
-        // formData.append("description", description);
-        // formData.append("price", price);
-        // formData.append("picture", picture); // Append the file
-        // formData.append("number_of_attendees", attendees);
-        // formData.append("location", location);
-        // formData.append("duration", duration);
-        // formData.append("category", category);
-        // formData.append("availability", availability);
-        // formData.append("postedBy", user?._id);
-
-        const details = {
-        title: title,
-        description: description,
-        price: price,
-        picture: picture,
-        number_of_attendees: attendees,
-        location: location,
-        duration: duration,
-        category: category,
-        availability: availability,
-        postedBy: user?._id
-        }
-
-        try {
-        const {data} = await axios.post(`${API_URL}/service/add`, details)
-
-        if(data){
-            message.success("New Service Created")
-            console.log(data)
-        }
-        } catch (error) {
-        console.log("error: ", error)
-        message.error("New Service Not Created")
-        }
-    }
 
     const handleBlogSubmit = async (e) => {
         e.preventDefault()
@@ -115,7 +74,7 @@ export default function WebsiteControls({services, blogs}) {
         </div>
 
         { click == 'Service' ? (
-            <ServicesList services={services}/>
+            <ServicesList services={services} setRefresh={setRefresh}/>
             // <div className='flex flex-col my-6 w-full'>
             //     <form onSubmit={(e) => handleSubmit(e)} className='w-full '>
             //         <div className='flex flex-col md:flex-row gap-4 py-4 w-full'>

@@ -26,6 +26,9 @@ export default function page() {
     console.log(bookings)
     const onlineBookings = bookings?.data.filter(booking => booking.services.some(service => service.location == "Online"));
     const offlineBookings = bookings?.data.filter(booking => booking.services.some(service => service.location != "Online"));
+
+    const [newDate, setNewDate] = useState("")
+    const [newTime, setNewTime] = useState("")
     
     console.log("onlineBookings", onlineBookings)
   return (
@@ -48,7 +51,7 @@ export default function page() {
                     <div className='flex flex-col w-full'>
                         {onlineBookings?.map((booking) => (
                             booking?.services.map(service => (
-                                <SessionCard data={service}/>
+                                <SessionCard type={selectedSession} data={service} />
                             ))
                         ))}
                     </div>
@@ -56,7 +59,7 @@ export default function page() {
                     <div className='flex flex-col w-full'>
                         {offlineBookings?.map((booking) => (
                             booking.services.map(service => (
-                                <SessionCard data={service}/>
+                                <SessionCard type={selectedSession} data={service}/>
                             ))
                         ))}
                     </div>
