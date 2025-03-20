@@ -14,7 +14,7 @@ export default function Widgets({users, services, bookings, payments}) {
                 <BsPeople size={20} className='text-yellow-600'/>
             </div>
 
-            <p className='text-xl pt-4'>{users?.data?.length}</p>
+            <p className='text-xl pt-4'>{users?.data?.length > 0 ? users?.data?.length : "0" }</p>
         </div>
         <div className='flex w-full flex-col items-start max-w-[300px] bg-purple-200 border rounded-md py-2 px-4'>
             <div className='flex w-full flex-row items-center justify-between'>
@@ -22,7 +22,7 @@ export default function Widgets({users, services, bookings, payments}) {
                 <BsTypeH3 size={20} className='text-purple-600'/>
             </div>
 
-            <p className='text-xl pt-4'>{services?.data?.length}</p>
+            <p className='text-xl pt-4'>{services?.data?.length > 0 ? services?.data?.length : "0" }</p>
         </div>
         <div className='flex w-full flex-col items-start max-w-[300px] bg-cyan-200 border rounded-md py-2 px-4'>
             <div className='flex w-full flex-row items-center justify-between'>
@@ -30,7 +30,7 @@ export default function Widgets({users, services, bookings, payments}) {
                 <BsGraphUp size={20} className='text-cyan-600'/>
             </div>
 
-            <p className='text-xl pt-4'>{bookings?.data?.length}</p>
+            <p className='text-xl pt-4'>{bookings?.data?.length > 0 ? bookings?.data?.length : "0" }</p>
         </div>
         <div className='flex w-full flex-col items-start max-w-[300px] bg-green-200 border rounded-md py-2 px-4'>
             <div className='flex w-full flex-row items-center justify-between'>
@@ -38,7 +38,7 @@ export default function Widgets({users, services, bookings, payments}) {
                 <BsCoin size={20} className='text-green-600'/>
             </div>
 
-            <p className='text-xl pt-4'>{"KSH "}{total} </p>
+            <p className='text-xl pt-4'>{"KSH "}{total > 0 ? total : "0"} </p>
         </div>
     </div>
   )

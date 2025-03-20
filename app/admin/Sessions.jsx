@@ -11,7 +11,7 @@ export default function Sessions({bookings}) {
       dataIndex: 'postedBy',
       key: 'postedBy',
       render: (postedBy) => (
-        <p>{postedBy.first_name} {postedBy.second_name}</p>
+        <p>{postedBy?.first_name} {postedBy?.second_name}</p>
       )
     },
     {
@@ -19,7 +19,7 @@ export default function Sessions({bookings}) {
       dataIndex: 'services',
       key: 'services',
       render: (services) => (
-        <p>{services[0].date}</p>
+        <p>{services[0]?.date}</p>
       )
     },
     {
@@ -27,7 +27,7 @@ export default function Sessions({bookings}) {
       dataIndex: 'services',
       key: 'services',
       render: (services) => (
-        <p>{services[0].location}</p>
+        <p>{services[0]?.location}</p>
       )
     },
     {
@@ -35,7 +35,7 @@ export default function Sessions({bookings}) {
       dataIndex: 'paymentInfo',
       key: 'paymentInfo',
       render: (paymentInfo) => (
-        <p>{paymentInfo.payment_status}</p>
+        <p>{paymentInfo?.payment_status}</p>
       )
     },
     {

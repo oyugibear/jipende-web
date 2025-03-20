@@ -6,8 +6,8 @@ export default function BasicTextArea({label, value, setValue}) {
   };
   return (
     <div className='flex flex-col gap-2'>
-        <label htmlFor="name">{label}</label>
-        <textarea type="text" value={value} onChange={handleChange} name="name" id="name" className='p-2 border border-gray-300 rounded-md' />
+        <label className='text-xs text-slate-800'>{label}</label>
+        <textarea type="text" value={value} onChange={handleChange} name="name" id="name" className='p-2 border w-full rounded-md' />
     </div>
   )
 }

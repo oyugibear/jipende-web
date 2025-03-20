@@ -1,6 +1,5 @@
 'use client'
 
-import ServiceModal from '@/components/Pages/Admin/modals/ServiceModal'
 import { API_URL } from '@/config/api.config'
 import { Descriptions, Image, Modal } from 'antd'
 import axios from 'axios'
@@ -8,15 +7,16 @@ import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import ConfirmationModal from '@/components/Constants/modals/ConfirmationModal'
 import { useRouter } from 'next/navigation'
+import BlogModal from '@/components/Pages/Admin/modals/BlogModal'
 
-async function getServices(id){
-    const res = await axios.get(`${API_URL}/service/${id}`)
+async function getBlog(id){
+    const res = await axios.get(`${API_URL}/blog/${id}`)
     return res.data
 }
 
 export default function page({}) {
 
-    const [service, setService] = useState(null)
+    const [blog, setBlog] = useState(null)
     const { id } = useParams();
     const [refresh, setRefresh] = useState(false)
 
@@ -24,56 +24,62 @@ export default function page({}) {
     const router = useRouter()
 
     const getData = async () => {
-      const data = await getServices(id) || null
-      setService(data)
+      const data = await getBlog(id) || null
+      setBlog(data.data)
     }
   
     useEffect(() => {
       getData()
     }, [refresh])
 
-    console.log("service", service)
+    console.log("blog", blog)
 
     const items = [
         {
             key: '1',
             label: 'Title',
-            children: service?.title
+            children: blog?.title
         },
         {
             key: '2',
-            label: 'Price',
-            children: service?.price
+            label: 'Reading Time',
+            children: blog?.reading_time
         },
         {
             key: '3',
-            label: 'Number of Attendees',
-            children: service?.number_of_attendees
+            label: 'Author',
+            children: blog?.author
         },
         {
             key: '4',
-            label: 'Location',
-            children: service?.location
+            label: 'Publisher',
+            children: blog?.publisher
         },
         {
             key: '5',
-            label: 'Duration',
-            children: service?.duration
+            label: 'Status',
+            children: blog?.status
         },
         {
             key: '6',
             label: 'Category',
-            children: service?.category
+            children: blog?.category
         },
         {
             key: '7',
-            label: 'Availability',
-            children: service?.availability
+            label: 'Publisher Link',
+            children: blog?.publisher
         },
         {
             key: '8',
             label: 'Description',
-            children: service?.description,
+            children: blog?.description,
+            span: 'filled'
+        },
+        {
+            key: '8',
+            label: 'Blog Text',
+            children: blog?.blog_text,
             span: 'filled'
         },
 
@@ -92,7 +98,7 @@ export default function page({}) {
     
     const handleDelete = async () => {
         try {
-            const {data} = await axios.delete(`${API_URL}/service/${service?._id}`)
+            const {data} = await axios.delete(`${API_URL}/blog/${blog?._id}`)
             if(data){
                 setDeleteOpen(false);
                 setRefresh(true);
@@ -113,17 +119,16 @@ export default function page({}) {
     return (
         <div className='flex flex-col w-full items-center justify-center py-12 p-4'>
             <div className='max-w-[1440px] w-full flex flex-col'>
-                <h1 className='text-xl font-medium'>Service Information</h1>
-                <p>Below are are all the details concerning this service</p>
+                <h1 className='text-xl font-medium'>Blog Information</h1>
+                <p>Below are are all the details concerning this blog</p>
                 <div className='my-6 w-full'>
-                    {/* <Image src={service?.picture} alt='service image' width={216} height={145} className='w-full md:max-w-[180px]'/> */}
+                    {/* <Image src={blog?.picture} alt='blog image' width={216} height={145} className='w-full md:max-w-[180px]'/> */}
                     <div className='w-full flex flex-row items-end justify-between my-4'>
-                        <Image src={service?.picture}  alt='service image' className='w-full aspect-auto max-w-sm'/>
+                        <Image src={blog?.picture}  alt='blog image' className='w-full aspect-auto max-w-sm'/>
                         <div className='flex flex-row gap-3'>                        
                             <button  onClick={showModal} className='button hover:bg-yellow-300 text-sm font-bold'>
                                 Edit
                             </button>
-
                             <button  onClick={showDeleteModal} className='button bg-red-500 hover:bg-red-300 text-sm font-bold'>
                                 Delete
                             </button>
@@ -132,7 +137,7 @@ export default function page({}) {
                     <Descriptions bordered layout="vertical" items={items} />
                 </div>
             </div>
-            <ServiceModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} type='edit' serviceDetails={service} setRefresh={setRefresh}/>
+            <BlogModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} type='edit' details={blog} setRefresh={setRefresh}/>
             <ConfirmationModal isOpen={deleteOpen} setIsOpen={setDeleteOpen} handleFunction={handleDelete} />
         </div>
     )
