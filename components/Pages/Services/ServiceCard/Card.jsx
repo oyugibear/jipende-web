@@ -18,9 +18,9 @@ export default function Card({service}) {
                 <div className='absolute w-full h-full flex flex-col'>
                     <div className='absolute w-full flex flex-row  justify-between bottom-0'>
                         <p className='absolute bottom-2 left-5 text-white'>{service?.duration} min</p>
-                        <div className='absolute px-4 py-2 bg-white bottom-0 right-0 lg:w-[40%] flex items-center justify-center'>
+                        {/* <div className='absolute px-4 py-2 bg-white bottom-0 right-0 lg:w-[40%] flex items-center justify-center'>
                             <p>KSH {service?.price}</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <Image src={imageSrc} alt='Service Card Image' width={442} height={223} className='max-h-[223px] object-cover'/>
