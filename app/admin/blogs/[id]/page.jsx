@@ -5,10 +5,10 @@ import { Descriptions, Image, Modal } from 'antd'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import ConfirmationModal from '@/components/Constants/modals/ConfirmationModal'
+import ConfirmationModal from '@/components/Constants/Modals/ConfirmationModal'
 import { useRouter } from 'next/navigation'
 import BlogModal from '@/components/Pages/Admin/modals/BlogModal'
-
+ 
 async function getBlog(id){
     const res = await axios.get(`${API_URL}/blog/${id}`)
     return res.data

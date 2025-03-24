@@ -6,9 +6,9 @@ import { Descriptions, Image, Modal } from 'antd'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import ConfirmationModal from '@/components/Constants/modals/ConfirmationModal'
+import ConfirmationModal from '@/components/Constants/Modals/ConfirmationModal'
 import { useRouter } from 'next/navigation'
-
+ 
 async function getServices(id){
     const res = await axios.get(`${API_URL}/service/${id}`)
     return res.data
