@@ -6,26 +6,26 @@ export default function Services() {
   const data = [
     {
       id: 1,
-      title: 'Self Awarness',
-      description: 'Its focus is to implement independent personal therapy as way of developing assistance to people who may need an outlet to express their problems.',
+      title: 'Solo Light Session',
+      description: 'The Solo Light Sessions are individual wellness programs that focuses on diverse talk therapy techniques, including CBT, ACT, and Psycho-therapy.',
       image: '/assets/homepage/serviceCardImgs/serviceCardImg.png'
     },
     {
       id: 2,
-      title: 'Self Development',
-      description: 'Its focus is to implement independent personal therapy as way of developing assistance to people who may be experiencing anxiety, etc.',
+      title: 'Tribe Session',
+      description: 'The Tribe Sessions are community group therapy programs and workhops designed to target specific groups such as couples, friends, and family etc.',
       image: '/assets/homepage/services/sd.jpg'
     },
+    // {
+    //   id: 1,
+    //   title: 'Mental Awarness',
+    //   description: 'This holistic program is for a person who will be or has been diagnosed by the Diagnostic and Statistical manual of Mental Disorder (DSM-TR).',
+    //   image: '/assets/homepage/services/ma.jpg'
+    // },
     {
       id: 1,
-      title: 'Mental Awarness',
-      description: 'This holistic program is for a person who will be or has been diagnosed by the Diagnostic and Statistical manual of Mental Disorder (DSM-TR).',
-      image: '/assets/homepage/services/ma.jpg'
-    },
-    {
-      id: 1,
-      title: 'Group Wellness',
-      description: 'Its focus is to implement community group therapy and workhop designed to target specific issues such as anger,anxiety, depression grief etc. ',
+      title: 'Harmony Blueprint',
+      description: 'The Harmony Blueprint Sessions are school and corporate programs that are designed to implement student and employee wellbeing. ',
       image: '/assets/homepage/services/g1.jpg'
     }
   ]

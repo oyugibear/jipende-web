@@ -17,6 +17,7 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
     const [picture, setPicture] = useState(null);
     const [numberOfAttendees, setNumberOfAttendees] = useState('');
     const [location, setLocation] = useState('');
+    const [locationAddress, setLocationAddress] = useState('');
     const [duration, setDuration] = useState('');
     const [category, setCategory] = useState('');
     const [availability, setAvailability] = useState('');
@@ -63,6 +64,7 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
         formData.append('price', price);
         formData.append('number_of_attendees', numberOfAttendees);
         formData.append('location', location);
+        formData.append('location_address', locationAddress);
         formData.append('duration', duration);
         formData.append('category', category);
         formData.append('availability', availability);
@@ -106,6 +108,9 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
             }
             if (location !== serviceDetails?.location && location !== '') {
               updatedData.append('location', location);
+            }
+            if (locationAddress !== serviceDetails?.location_address && locationAddress !== '') {
+              updatedData.append('location_address', locationAddress);
             }
             if (duration !== serviceDetails?.duration && duration !== '') {
               updatedData.append('duration', duration);
@@ -157,14 +162,21 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
         {label: 'Inactive', value: 'Inactive'},
     ]
 
+    const locations = [
+        {label: 'In Person', value: 'In Person'},
+        {label: 'Online', value: 'Online'},
+    ]
+
     if (type == 'add') {
         return (
             <Modal title="Add new Service" onOk={handleAdd} open={isOpen} onCancel={handleCancel} footer={<Button key="submit" color="blue" variant="solid" loading={loading} onClick={handleAdd}> Submit</Button>}>
                 <div className='flex flex-col gap-4 overflow-x-hidden'>
                     <BasicInputs label='Title' value={title} setValue={setTitle} />
-                    <BasicInputs label='Price' value={price} setValue={setPrice} />
-                    <BasicInputs label='Number of Attendees' value={numberOfAttendees} setValue={setNumberOfAttendees} />
-                    <BasicInputs label='Location' value={location} setValue={setLocation} />
+                    <BasicInputs label='Price' value={price} setValue={setPrice} type="number"/>
+                    <BasicInputs label='Number of Attendees' value={numberOfAttendees} setValue={setNumberOfAttendees} type="number"/>
+                    
+                    <BasicSelectArea label='Location' value={location} setValue={setLocation} options={locations} />
+                    {location == "In Person" && <BasicInputs label='Location Address' value={locationAddress} setValue={setLocationAddress} />}
                     <BasicSelectArea label='Duration' value={duration} setValue={setDuration} options={durations}/>
                     <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
                     <BasicSelectArea label='Availability' value={availability} setValue={setAvailability} options={statuses}/>
@@ -186,7 +198,8 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
                     <BasicInputs label='Title' value={title} setValue={setTitle} />
                     <BasicInputs label='Price' value={price} setValue={setPrice} />
                     <BasicInputs label='Number of Attendees' value={numberOfAttendees} setValue={setNumberOfAttendees} />
-                    <BasicInputs label='Location' value={location} setValue={setLocation} />
+                    <BasicSelectArea label='Location' value={location} setValue={setLocation} options={locations} />
+                    {location == "In Person" && <BasicInputs label='Location Address' value={locationAddress} setValue={setLocationAddress} />}
                     <BasicSelectArea label='Duration' value={duration} setValue={setDuration} options={durations}/>
                     <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
                     <BasicSelectArea label='Availability' value={availability} setValue={setAvailability} options={statuses}/>

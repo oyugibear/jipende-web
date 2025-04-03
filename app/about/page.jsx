@@ -8,7 +8,7 @@ import React from 'react'
 export default function page() {
   return (
     <div className='w-full flex flex-col items-center justify-center'>
-        <PictureHero title='Our Story' description='A little bit about us' imgPath='/assets/blogs/home.png' />
+        <PictureHero title='Our Story' description='' imgPath='/assets/blogs/home.png' />
         <div className='flex max-w-[1440px] w-full p-4 my-12 flex-col items-center gap-6'>
             <AboutText />
             <AboutVideos />
