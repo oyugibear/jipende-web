@@ -16,7 +16,7 @@ export default async function page() {
   
   return (
     <div className='flex flex-col w-full'>
-      <PictureHero title='Hot New Insights' description='Checkout all of our blogs, you will have an amazing time' imgPath='/assets/blogs/home2.png'  />
+      <PictureHero title='Our Insights' description='' imgPath='/assets/blogs/home2.png'  />
       <div className='w-full flex flex-col items-center justify-center my-12 px-4'>
         <div className='max-w-[1440px] flex flex-wrap  justify-center md:grid grid-cols-2 lg:grid-cols-3 w-full gap-4 md:gap-12'>
           {blogs?.data?.map((blog) => (
