@@ -81,7 +81,7 @@ export default function Navbar() {
     <div className='w-full h-full flex items-center justify-center z-10 sticky'>
         <div className='w-full max-w-[1440px] hidden md:flex flex-row items-center justify-between py-4 my-4 mx-4 md:mx-6 '>
             <Link href='/'>
-                <Image src='/assets/logo.png' alt='logo' width={100} height={100} className=''/>
+                <Image src='/assets/logo1.png' alt='logo' width={100} height={100} className=''/>
             </Link>
             <div className='flex flex-row items-center gap-6'>
                 <Link href='/services'>
@@ -138,7 +138,7 @@ export default function Navbar() {
         {/* Mobile View */}
         <div className='w-full h-full py-4 md:hidden flex flex-row items-center justify-between shadow-sm px-4 '>
             <Link href='/'>
-                <Image src='/assets/logo.svg' alt='logo' width={60} height={60} className=''/>
+                <Image src='/assets/logo1.png' alt='logo' width={60} height={60} className=''/>
             </Link>
             <div onClick={showDrawer}>
                 <AiOutlineMenu size={30}/>
@@ -151,7 +151,7 @@ export default function Navbar() {
                 <div className='flex flex-col items-center w-full h-full'>
                     <div className='flex flex-row items-center justify-between w-full'>
                         <Link href='/'>
-                            <Image  src='/assets/logo.svg' alt='logo' width={60} height={60} className=''/>
+                            <Image  src='/assets/logo1.png' alt='logo' width={60} height={60} className=''/>
                         </Link>
                         <Link href='/cart'>
                             <Badge count={5}>
