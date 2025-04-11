@@ -12,6 +12,7 @@ import { API_URL } from '@/config/api.config'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '@/app/GlobalRedux/Features/cart/CartSlice'
 import { Modal, message, Image } from 'antd'
+import { useRouter } from 'next/navigation'
 
 
 async function getService(productId) {
@@ -42,12 +43,14 @@ export default function page({
 
     let price = data?.price
     const [quantity, setQuantity] = useState(1)
+    const router = useRouter()
 
     const handleClick = () => {
         try {
             dispatch(addProduct({product: data, date: date, time: time, quantity: quantity, price: price }))
             message.success('Your Order Has Been Placed')
             setIsModalOpen(false);
+            router.push('/cart')
         } catch (error) {
             console.log(error)
             message.error('Your Order Has Not Been Placed')

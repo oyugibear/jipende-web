@@ -72,13 +72,17 @@ export default function WebsiteControls({services, blogs, setRefresh}) {
             <button onClick={() => setClick('Blogs')} className='button'>
                 Manage Blogs
             </button>
+            {/* <button onClick={() => setClick('Blogs')} className='button'>
+                Manage Service Description
+            </button> */}
         </div>
 
         { click == 'Service' ? (
             <ServicesList services={services} setRefresh={setRefresh}/>
-        
         ) :  click == 'Blogs' ? (
             <BlogList blogs={blogs} setRefresh={setRefresh}/>
+        ) : click == 'Service Description' ? (
+            <ServiceDescList services={services} setRefresh={setRefresh}/>
         ) : null}
 
         
