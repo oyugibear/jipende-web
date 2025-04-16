@@ -13,7 +13,7 @@ export default function Footer() {
             <Link href='/Blogs'>
               <button className=''>Blogs</button>
             </Link>
-            <Link href='/ServiceDescription'>
+            <Link href='/serviceDescription'>
               <button className=''>Service Breakdown</button>
             </Link> 
             <Link href='/contacts'>
