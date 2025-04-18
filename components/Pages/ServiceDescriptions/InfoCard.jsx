@@ -8,7 +8,7 @@ export default function InfoCard({data}) {
     <div className='w-full py-8'>
         <div className='flex flex-col md:flex-row items-center justify-center gap-6'>
             {data.side == 'left' ? (
-                <Image src={data.imgPath} alt={data.imgAlt} width={500} height={500} className='max-w-[500px] w-full object-cover'/>     
+                <Image src={data.imgPath} alt={data.imgAlt} width={500} height={500} className='max-w-[500px] w-full object-cover rounded-lg shadow-lg max-h-[400px]'/>     
             ) : null}
             <div className='max-w-[500px] flex flex-col items-start justify-center gap-2'>
                 <p className='text-2xl font-semibold'>{data.title}</p>
@@ -21,7 +21,7 @@ export default function InfoCard({data}) {
 
             </div>
             {data.side == 'right' ? (
-                <Image src={data.imgPath} alt={data.imgAlt} width={500} height={500} className='max-w-[500px] w-full object-cover'/>     
+                <Image src={data.imgPath} alt={data.imgAlt} width={500} height={500} className='max-w-[500px] w-full object-cover rounded-lg shadow-lg'/>     
             ) : null}
                 
         </div>

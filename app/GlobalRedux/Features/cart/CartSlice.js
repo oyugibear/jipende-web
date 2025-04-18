@@ -40,14 +40,16 @@ const cartSlice = createSlice({
         },
         
         removeProductFromCart: (state, action) => {
-            const { id } = action.payload
-            const productIndex = state.products.findIndex((p) => p.product._id === id)
+            const { id } = action.payload;
+            console.log("Removing product with ID:", state);
+            const productIndex = state.cart.products.findIndex((p) => p.product._id === id)
       
             if (productIndex !== -1) {
               // If the product is found in the cart, remove it
               const productToRemove = state.products[productIndex]
               state.products.splice(productIndex, 1)
               state.total -= productToRemove.price
+              state.totalAmount -= productToRemove.price
               state.quantity -= productToRemove.quantity
             }
       

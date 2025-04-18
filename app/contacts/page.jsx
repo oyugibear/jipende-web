@@ -35,7 +35,7 @@ export default function page() {
             
           </div>
           <div className='absolute w-full h-full bg-black/60' />
-          <Image src='/assets/contacts/c3.png' alt='happy person' width={1920} height={568} className='h-[800px] max-h-[800px] xl:max-h-[1000px] object-cover object-center w-full'/>
+          <Image src='/assets/contacts/c4.jpg' alt='happy person' width={1920} height={568} className='h-[800px] max-h-[800px] xl:max-h-[1000px] object-cover object-center w-full'/>
       </div>
 
       <BasicQuery />
