@@ -14,7 +14,7 @@ export default function Footer() {
               <button className=''>Blogs</button>
             </Link>
             <Link href='/serviceDescription'>
-              <button className=''>Service Breakdown</button>
+              <button className=''>Programs</button>
             </Link> 
             <Link href='/contacts'>
               <button className=''>Contacts</button>

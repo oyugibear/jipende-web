@@ -11,8 +11,9 @@ import axios from 'axios'
 import { API_URL } from '@/config/api.config'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '@/app/GlobalRedux/Features/cart/CartSlice'
-import { Modal, message, Image } from 'antd'
+import { Modal, message, Image, DatePicker, TimePicker } from 'antd'
 import { useRouter } from 'next/navigation'
+import dayjs from 'dayjs'
 
 
 async function getService(productId) {
@@ -67,6 +68,31 @@ export default function page({
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+
+    const range = (start, end) => {
+        const result = [];
+        for (let i = start; i < end; i++) {
+          result.push(i);
+        }
+        return result;
+    };
+
+    const disabledDate = (current) => {
+        // Disable days before today and weekends (Saturday and Sunday)
+        return (
+            current &&
+            (current < dayjs().endOf('day') || current.day() === 0 || current.day() === 6)
+        );
+    };
+    const disabledDateTime = () => ({
+        disabledHours: () => range(0, 8).concat(range(19, 24)), // Disable hours outside 8 AM to 7 PM
+        disabledMinutes: (selectedHour) => {
+            // Allow only 0 and 30 minutes for enabled hours
+            return selectedHour >= 8 && selectedHour < 19 ? range(0, 60).filter(min => min !== 0 && min !== 30) : range(0, 60);
+        },
+    });
+
 
   return (
     <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -123,21 +149,34 @@ export default function page({
                     
                     
                     <div className='flex flex-col md:flex-row items-center gap-4 my-4'>
+                   
+                    
                         <div className='flex flex-col items-start w-full'>
                             <label className='text-sm'>Date</label>
-                            <input value={date} onChange={(e) => setDate(e.target.value)} type="date" className='p-2 max-w-[200px] border rounded-md w-full' />
+                            <DatePicker
+                                format="YYYY-MM-DD"
+                                disabledDate={disabledDate}
+                                onChange={(value, dateString) => {
+                                    console.log('Formatted Selected Time: ', dateString);
+                                    setDate(dateString)
+                                }}
+                            
+                            />
                         </div>
                         <div className='flex flex-col items-start w-full'>
                             <label className='text-sm'>Time</label>
-                            <input
-                                value={time}
-                                onChange={(e) => setTime(e.target.value)}
-                                type="time"
-                                className='p-2 max-w-[200px] border rounded-md w-full'
-                                min="09:00" // Set min time to 09:00 (9:00 AM)
-                                max="17:30" // Set max time to 17:30 (5:30 PM)
-                                step="1800" // Set step to 1800 seconds (30 minutes)
-                                // disabled={!isWeekday(date)} // Disable input if selected date is not a weekday
+                            <TimePicker
+                                format="HH:mm"
+                                defaultValue={dayjs('08:30', 'HH:mm')} // Set a default value in the correct format
+                                disabledTime={disabledDateTime}
+                                onChange={(value) => {
+                                    if (value) {
+                                        const formattedTime = value.format('HH:mm'); // Format the selected time
+                                        console.log('Selected Time: ', formattedTime);
+                                        setTime(formattedTime); // Set the formatted time
+                                    }
+                                }}
+                                renderExtraFooter={() => null} // Disables the footer by rendering nothing
                             />
                         </div>
                     </div>

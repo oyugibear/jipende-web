@@ -16,7 +16,7 @@ export default function page() {
                 "Our diverse behavioural treatment can help people identify, understand, learn, and work on their emotional difficulties that they are experiencing or the mental health condition that they have been diagnosed with.",
                 "Our treatment will help them learn and design tools that can assist them with their lifestyle change."
             ],
-            imgPath: '/assets/contacts/c3.png',
+            imgPath: '/assets/Services/solo.jpg',
             imgAlt: 'Therapy Image',
             side: 'left'
         },
@@ -29,7 +29,7 @@ export default function page() {
                 "Our diverse behavioural treatment can help people identify, understand, learn, and work on their emotional difficulties that they are experiencing or the mental health condition that they have been diagnosed with.",
                 "Our treatment will help them learn and design tools that can assist them with their lifestyle change."
             ],
-            imgPath: '/assets/contacts/c3.png',
+            imgPath: '/assets/about/tribe.jpg',
             imgAlt: 'Therapy Image',
             side: 'right'
         },
@@ -42,7 +42,7 @@ export default function page() {
                 "Our diverse behavioural treatment can help people identify, understand, learn, and work on their emotional difficulties that they are experiencing or the mental health condition that they have been diagnosed with.",
                 "Our treatment will help them learn and design tools that can assist them with their lifestyle change."
             ],
-            imgPath: '/assets/contacts/c3.png',
+            imgPath: '/assets/about/k2.jpg',
             imgAlt: 'Therapy Image',
             side: 'left'
         },
@@ -51,7 +51,7 @@ export default function page() {
     ]
   return (
     <div className='w-full flex flex-col items-center justify-center'>
-        <PictureHero title='Our services' description='' imgPath='/assets/blogs/home.png' />
+        <PictureHero title='Our services' description='' imgPath='/assets/about/home.jpg' />
         <div className='flex max-w-[1024px] w-full p-4 my-12 flex-col items-center gap-6'>
             {serviceInfo.map((item, index) => (
                 <div className=''>
