@@ -7,7 +7,7 @@ export default function AboutText() {
             <h2 className='font-bold'>What exactly do we do?</h2>
             <p>
                 Africa Jipende Wellness Limited (AJW) is a practicing and research centre that takes on a therapeutic 
-                holistic approach to the Mind, Body and Behaviour using multidisciplinary programmers to implement wellness.
+                holistic approach to the Mind, Body and Behaviour using multidisciplinary programs to implement wellness.
             </p>
         </div>
         <div className='flex flex-col w-full'>

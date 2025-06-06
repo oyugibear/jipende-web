@@ -23,7 +23,7 @@ export default function page() {
         {
             title: 'Tribe Sessions',
             subTitle: "Group wellness programs",
-            description: 'Our group wellness programs help you to tackle emotional difficulties. Such as the following: relationship issues, loneliness, grief/loss, adjustment issues, identity crisis, stress, anger, eating disorder, mood disorder, depression, and anxiety. We do this through diverse talk therapies and workshops.',
+            description: 'Our group wellness programs help you to tackle emotional difficulties. The different groups we work with are couples, familes, siblings and friends. An example of the topics we focus on are: anger management, relationship dynamics, stress manangement etc. We do this through diverse talk therapy and workshops.',
             benefits: [
                 "It can be your first step in identifying where you need help and its the start to your personal growth journey.",
                 "Our diverse behavioural treatment can help people identify, understand, learn, and work on their emotional difficulties that they are experiencing or the mental health condition that they have been diagnosed with.",
@@ -36,7 +36,7 @@ export default function page() {
         {
             title: 'Harmony Blueprint', 
             subTitle: "Corporate & School wellness programs",
-            description: 'This wellness programs help you to tackle emotional difficulties. Such as the following: relationship issues, loneliness, grief/loss, adjustment issues, identity crisis, stress, anger, eating disorder, mood disorder, depression, and anxiety. We do this through diverse talk therapies and workshops.',    
+            description: 'This wellness programs help you to tackle emotional difficulties. Such as the following: mental health awarness in the workplace and school, stress management, we can design our topics to the business needs. We do this through diverse talk therapies and workshops.',    
             benefits: [
                 "It can be your first step in identifying where you need help and its the start to your personal growth journey.",
                 "Our diverse behavioural treatment can help people identify, understand, learn, and work on their emotional difficulties that they are experiencing or the mental health condition that they have been diagnosed with.",
@@ -51,7 +51,7 @@ export default function page() {
     ]
   return (
     <div className='w-full flex flex-col items-center justify-center'>
-        <PictureHero title='Our services' description='' imgPath='/assets/about/home.jpg' />
+        <PictureHero title='Our Services' description='' imgPath='/assets/about/home.jpg' />
         <div className='flex max-w-[1024px] w-full p-4 my-12 flex-col items-center gap-6'>
             {serviceInfo.map((item, index) => (
                 <div className=''>
@@ -62,7 +62,7 @@ export default function page() {
 
             <iframe
             
-            src={`/assets/pdfs/pdfs.pdf`}
+            src={`/assets/pdfs/Jipende_Services.pdf`}
             width="100%"
             height="600px"
             className='max-w-[1024px] w-full'
