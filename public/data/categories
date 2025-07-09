@@ -1,0 +1,7 @@
+
+    const categories = [
+        {label: 'Individual Awareness', value: 'Individual Awareness'},
+        {label: 'Self Development', value: 'Self Development'},
+        {label: 'Mental Awareness', value: 'Mental Awareness'},
+        {label: 'Group Wellness', value: 'Group Wellness'},
+    ]
