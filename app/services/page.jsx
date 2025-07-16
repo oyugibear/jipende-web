@@ -35,7 +35,8 @@ export default  function Page() {
         { key: '1', label: 'Individual Awareness', value: 'Individual Awareness' },
         { key: '2', label: 'Self Development', value: 'Self Development' },
         { key: '3', label: 'Mental Awareness', value: 'Mental Awareness' },
-        { key: '4', label: 'All', value: 'All' },
+        { key: '4', label: 'After Care', value: 'After Care' },
+        { key: '5', label: 'All', value: 'All' },
     ];
 
     const locationItems = [
