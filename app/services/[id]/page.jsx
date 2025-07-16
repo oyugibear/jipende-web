@@ -99,16 +99,16 @@ export default function page({
         <div className='flex flex-col w-full items-center justify-center mx-4 md:mx-0'>
             <div className='flex flex-col w-full max-w-[1440px] md:my-12 py-12 text-sm md:text-base md:px-4'>
                 <div className='flex flex-col mx-4 md:mx-0'>
-                    <h1 className='text-xl md:text-3xl mb-2 font-medium md:font-normal'>{data?.category}</h1>
-                    <p>Out and about building new relationships with our toxic pasts.</p>
+                    <h1 className='text-xl md:text-3xl mb-2 font-medium md:font-normal'>{data?.title}</h1>
+                    <p>{data.category}</p>
                 </div>
 
                 <div className='flex flex-col md:flex-row items-center justify-evenly mt-8 p-4'>
-                    <div className='md:px-4'>
-                        <Image src={data.picture} alt='product Image' className="w-full lg:max-w-[60vw] h-[40vh] object-cover " />
+                    <div className='md:px-4 '>
+                        <Image src={data.picture} alt='product Image' className="w-full lg:max-w-[60vw] h-[40vh] object-cover" />
                     </div>
 
-                    <div className='flex flex-col mx-4 w-full'>
+                    <div className='flex flex-col mx-4 w-full max-w-[700px]'>
                         <h2 className='text-xl font-bold mt-6 md:mt-0'>{data.title}</h2>
                         <p className='w-full max-w-[700px] my-4'>
                             {data?.description}
