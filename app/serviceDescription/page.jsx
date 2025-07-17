@@ -23,28 +23,34 @@ export default function page() {
         {
             title: 'Tribe Sessions',
             subTitle: "Group wellness programs",
-            description: 'Our group wellness programs help you to tackle emotional difficulties. Such as the following: relationship issues, loneliness, grief/loss, adjustment issues, identity crisis, stress, anger, eating disorder, mood disorder, depression, and anxiety. We do this through diverse talk therapies and workshops.',
+            description: 'We also believe in the power of the group, sometimes we can feel that we are the only people who are going through issues. If you’re in a group of people that share similar struggles you will realise that you are not alone. Groups are a good way of accountability and support. For example, grief and loss. Losing a significant person in your life is better understood with someone who has gone through a similar experience.',
             benefits: [
-                "It can be your first step in identifying where you need help and its the start to your personal growth journey.",
-                "Our diverse behavioural treatment can help people identify, understand, learn, and work on their emotional difficulties that they are experiencing or the mental health condition that they have been diagnosed with.",
-                "Our treatment will help them learn and design tools that can assist them with their lifestyle change."
+                "You develop a positive support system by receiving support. You will also be able to share your experience with others who are going through a similar struggle.",
+                "It’s a safe space for people not to feel alone.",
+                "It’s a safe space for people to share their feelings and learn.",
+                "It’s a safe place where you will learn new ways of thinking, and adapting new beliefs that may shift you and other people’s perspectives on how to handle pain."
             ],
             imgPath: '/assets/about/tribe.jpg',
             imgAlt: 'Therapy Image',
             side: 'right'
         },
         {
-            title: 'Harmony Blueprint', 
-            subTitle: "Corporate & School wellness programs",
-            description: 'This wellness programs help you to tackle emotional difficulties. Such as the following: relationship issues, loneliness, grief/loss, adjustment issues, identity crisis, stress, anger, eating disorder, mood disorder, depression, and anxiety. We do this through diverse talk therapies and workshops.',    
+            title: 'Harmony Blueprint',
+            subTitle: 'Corporate & School Wellness Programs',
+            description: 'Harmony Blueprint is our specialized wellness program designed to support emotional, behavioral, and psychological growth in both schools and corporate settings. We focus on fostering self-awareness, healthy communication, emotional intelligence, and inclusive environments through engaging, expert-led sessions.',
             benefits: [
-                "It can be your first step in identifying where you need help and its the start to your personal growth journey.",
-                "Our diverse behavioural treatment can help people identify, understand, learn, and work on their emotional difficulties that they are experiencing or the mental health condition that they have been diagnosed with.",
-                "Our treatment will help them learn and design tools that can assist them with their lifestyle change."
+                "Participants will learn to identify their communication styles.",
+                "Techniques for managing emotions and stress effectively.",
+                "Awareness of inclusion, diversity, gender equality, and consent.",
+                "Understanding and meeting psychological and emotional needs.",
+                "Tools to build and sustain healthy peer and professional relationships.",
+                "Foundational self-awareness and personal development practices.",
+                "Mental health demystification and stigma reduction.",
             ],
             imgPath: '/assets/about/k2.jpg',
             imgAlt: 'Therapy Image',
-            side: 'left'
+            side: 'left',
+              
         },
         
 
