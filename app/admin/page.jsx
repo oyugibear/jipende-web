@@ -12,6 +12,8 @@ import Widgets from './Widgets'
 import Sessions from './Sessions'
 import UserList from './UserList'
 import PaymentsList from './PaymentsList'
+import SimpleLoading from '@/components/Constants/Loading/SimpleLoading'
+import SimpleRedirect from '@/components/Constants/Loading/SimpleRedirect'
 
 async function getUsers(){
     const res = await fetch(`${API_URL}/users`, {cache: "reload"})
@@ -37,14 +39,20 @@ async function getPayments(){
 
 export default function page() {
     
-    const { user } = useUser()
+    const { user, userloading } = useUser()
     const router = useRouter()
+    const [hasMounted, setHasMounted] = useState(false)
+
+    useEffect(() => {
+        setHasMounted(true)
+    }, []);
+
     useEffect(() => {
         if(!user){
             router.push("/")
         }
     }, [user])
-
+    
     const [refresh, setRefresh] = useState(false);
     
     const [users, setUsers] = useState([]);
@@ -62,21 +70,30 @@ export default function page() {
     }, [refresh]);
 
     console.log(users)
-    
-  return (
-    <div className='w-full h-full flex flex-col justify-center items-center text-sm py-8'>
-        <h1 className='head-text'>Admin Dashboard</h1>
-        <div className='max-w-[1520px] w-full  px-4 flex flex-col'>
-            <Widgets users={users} services={services} payments={payments} bookings={bookings}/>
-            <hr />
-            <WebsiteControls services={services} blogs={blogs} setRefresh={setRefresh}/>
-            <hr />
-            <Sessions bookings={bookings}/>
-            <hr />
-            <UserList users={users}/>
-            <hr />
-            <PaymentsList payments={payments}/>
+    if (!hasMounted) return (<SimpleLoading />)
+
+  if (userloading || !hasMounted) {
+    return <SimpleLoading />;
+  }
+  if (!userloading && user.role !== "Admin") {
+    router.push('/auth/signin');
+    return <SimpleRedirect />
+  } else {
+    return (
+        <div className='w-full h-full flex flex-col justify-center items-center text-sm py-8'>
+            <h1 className='head-text'>Admin Dashboard</h1>
+            <div className='max-w-[1520px] w-full  px-4 flex flex-col'>
+                <Widgets users={users} services={services} payments={payments} bookings={bookings}/>
+                <hr />
+                <WebsiteControls services={services} blogs={blogs} setRefresh={setRefresh}/>
+                <hr />
+                <Sessions bookings={bookings}/>
+                <hr />
+                <UserList users={users}/>
+                <hr />
+                <PaymentsList payments={payments}/>
+            </div>
         </div>
-    </div>
-  )
+    )
+  }
 }
