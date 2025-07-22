@@ -1,5 +1,6 @@
 "use client"
 
+import SimpleLoading from '@/components/Constants/Loading/SimpleLoading'
 import Hero from '@/components/Pages/Services/Hero'
 import Card from '@/components/Pages/Services/ServiceCard/Card'
 import { API_URL } from '@/config/api.config'
@@ -15,6 +16,13 @@ async function fetchServices() {
 
 export default  function Page() {
 
+    const [hasMounted, setHasMounted] = useState(false)
+
+    useEffect(() => {
+        setHasMounted(true)
+    }, [])
+
+
     const [services, setServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
     const [therapyType, setTherapyType] = useState('');
@@ -22,7 +30,7 @@ export default  function Page() {
     const [location, setLocation] = useState('');
 
     const [filtered, setFiltered] = useState(false);
-
+    
     useEffect(() => {
         async function loadServices() {
             const data = await fetchServices();
@@ -90,6 +98,8 @@ export default  function Page() {
     }
 
     console.log("filteredServices", filteredServices);
+    if (!hasMounted) return (<SimpleLoading />)
+    if (!services.data) return (<SimpleLoading />)
   return (
     <div className='w-full h-full flex flex-col items-center justify-center'>
         <Hero />

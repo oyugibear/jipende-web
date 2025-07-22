@@ -13,6 +13,7 @@ import { Dropdown, Space } from 'antd';
 import { useRouter } from 'next/navigation'
 import { useLogout, useUser } from '@/context'
 import { useSelector } from 'react-redux'
+import SimpleLoading from '../Constants/Loading/SimpleLoading'
 
  
 export default function Navbar() {
@@ -27,18 +28,12 @@ export default function Navbar() {
       setOpen(true);
     };
 
-    const { user } = useUser()
+    const { user, userloading } = useUser()
   
     const onClose = () => {
       setOpen(false);
     };
 
-    useEffect(() => {
-        setHasMounted(true)
-    }, [])
-
-    
-    if (!hasMounted) return null
     const handleLogout = () => {
         logout()
         router.push("/auth/signin")
@@ -58,23 +53,45 @@ export default function Navbar() {
         {
           key: '2',
           label: (
-            <Link href='/admin'>
-                <p className=''>
-                Admin
-                </p>
-            </Link>
-          ),
-        },
-        {
-          key: '2',
-          label: (
             <button  onClick={handleLogout} className='text-red-600 w-full rounded-lg m-0 '>
                 Log Out
             </button>
           ),
         },
         
-      ];
+    ];
+    
+    const adminItems = [
+    {
+        key: '1',
+        label: (
+        <Link href='/account'>
+            <p className=''>
+            Account
+            </p>
+        </Link>
+        ),
+    },
+    {
+        key: '2',
+        label: (
+        <Link href='/admin'>
+            <p className=''>
+            Admin
+            </p>
+        </Link>
+        ),
+    },
+    {
+        key: '3',
+        label: (
+        <button  onClick={handleLogout} className='text-red-600 w-full rounded-lg m-0 '>
+            Log Out
+        </button>
+        ),
+    },
+    
+    ];
 
 
   return (
@@ -119,19 +136,29 @@ export default function Navbar() {
                     <button>Sign In / Sign Up</button>
                 </Link>
             ) : (
-                // <Link href='/account'>
-                <Dropdown menu={{ items }}  placement="bottomRight">
-                    <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                        <p className='flex flex-row items-center gap-2'>
-                            <p>{user.first_name}</p>
-                            <BiChevronDown size={20}/>
-                        </p>
-                    </Space>
-                    </a>
-                </Dropdown>
-                    
-                // </Link>
+                user?.role === 'Admin' ? (
+                    <Dropdown menu={{ items: adminItems }}  placement="bottomRight">
+                        <a onClick={(e) => e.preventDefault()}>
+                        <Space>
+                            <p className='flex flex-row items-center gap-2'>
+                                <p>{user.first_name}</p>
+                                <BiChevronDown size={20}/>
+                            </p>
+                        </Space>
+                        </a>
+                    </Dropdown>
+                ) : (
+                    <Dropdown menu={{ items }}  placement="bottomRight">
+                        <a onClick={(e) => e.preventDefault()}>
+                        <Space>
+                            <p className='flex flex-row items-center gap-2'>
+                                <p>{user.first_name}</p>
+                                <BiChevronDown size={20}/>
+                            </p>
+                        </Space>
+                        </a>
+                    </Dropdown>
+                )
             )}
         </div>
 

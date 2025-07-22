@@ -12,7 +12,7 @@ export default function AboutUs() {
               <p className="my-4 text-justify">
                 <b>What exactly do we do?</b>
                 <br />
-                Africa Jipende Wellness Limited (AJW) is a practicing and research centre that takes on a therapeutic holistic approach to the Mind, Body and Behaviour using multidisciplinary programmers to implement wellness.
+                Africa Jipende Wellness Limited (AJW) is a practicing and research centre that takes on a therapeutic holistic approach to the Mind, Body and Behaviour using multidisciplinary programs to implement wellness.
                 <br />
                 <br />
                 <b>Our History</b>

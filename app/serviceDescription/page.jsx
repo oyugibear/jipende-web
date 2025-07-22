@@ -23,7 +23,8 @@ export default function page() {
         {
             title: 'Tribe Sessions',
             subTitle: "Group wellness programs",
-            description: 'We also believe in the power of the group, sometimes we can feel that we are the only people who are going through issues. If you’re in a group of people that share similar struggles you will realise that you are not alone. Groups are a good way of accountability and support. For example, grief and loss. Losing a significant person in your life is better understood with someone who has gone through a similar experience.',
+
+            description: 'Our group wellness programs help you to tackle emotional difficulties. The different groups we work with are couples, familes, siblings and friends. An example of the topics we focus on are: anger management, relationship dynamics, stress manangement etc. We do this through diverse talk therapy and workshops.',
             benefits: [
                 "You develop a positive support system by receiving support. You will also be able to share your experience with others who are going through a similar struggle.",
                 "It’s a safe space for people not to feel alone.",
@@ -57,7 +58,7 @@ export default function page() {
     ]
   return (
     <div className='w-full flex flex-col items-center justify-center'>
-        <PictureHero title='Our services' description='' imgPath='/assets/about/home.jpg' />
+        <PictureHero title='Our Services' description='' imgPath='/assets/about/home.jpg' />
         <div className='flex max-w-[1024px] w-full p-4 my-12 flex-col items-center gap-6'>
             {serviceInfo.map((item, index) => (
                 <div className=''>
@@ -68,7 +69,7 @@ export default function page() {
 
             <iframe
             
-            src={`/assets/pdfs/pdfs.pdf`}
+            src={`/assets/pdfs/Jipende_Services.pdf`}
             width="100%"
             height="600px"
             className='max-w-[1024px] w-full'
