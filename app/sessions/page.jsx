@@ -1,36 +1,89 @@
 'use client'
 
-import { useUser } from '@/context'
 import React, { useEffect, useState } from 'react'
 import SessionCard from '@/components/Pages/Account/SessionCard'
-import { API_URL } from '@/config/api.config'
 import Hero from '@/components/Constants/Hero'
-
-
-async function getBookings(id){
-    const res = await fetch(`${API_URL}/bookings/user/${id}`,  {cache: "no-store"})
-    return res.json()
-}
+import { useAuth } from '@/context/AuthContext'
+import { bookingAPI } from '@/utils/api'
 
 export default function page() {
-    const { user } = useUser()
-    const [bookings, setBookings] = useState(null)
+    const { user, isAuthenticated } = useAuth()
+    const [bookings, setBookings] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const [selectedSession, setSelectedSession] = useState('Online')
 
     useEffect(() => {
-        if (user) {
-          getBookings(user._id).then(setBookings)
+        const fetchBookings = async () => {
+            if (user && isAuthenticated) {
+                try {
+                    setLoading(true)
+                    setError(null)
+                    const response = await bookingAPI.getUserBookings(user._id)
+                    if (response && response.status && response.data) {
+                        // Ensure we have an array
+                        setBookings(Array.isArray(response.data) ? response.data : [])
+                    } else {
+                        setBookings([])
+                    }
+                } catch (error) {
+                    console.error('Error fetching bookings:', error)
+                    setError('Failed to load sessions. Please try again later.')
+                    setBookings([])
+                } finally {
+                    setLoading(false)
+                }
+            } else {
+                setLoading(false)
+            }
         }
-    }, [user])
+
+        fetchBookings()
+    }, [user, isAuthenticated])
 
     console.log(bookings)
-    const onlineBookings = bookings?.data.filter(booking => booking.services.some(service => service.location == "Online"));
-    const offlineBookings = bookings?.data.filter(booking => booking.services.some(service => service.location != "Online"));
+    const onlineBookings = Array.isArray(bookings) ? bookings?.filter(booking => 
+        booking?.services?.some(service => service?.location == "Online")
+    ) : [];
+    const offlineBookings = Array.isArray(bookings) ? bookings?.filter(booking => 
+        booking?.services?.some(service => service?.location != "Online")
+    ) : [];
 
     const [newDate, setNewDate] = useState("")
     const [newTime, setNewTime] = useState("")
     
     console.log("onlineBookings", onlineBookings)
+    
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-500"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="text-center">
+                    <h2 className="text-2xl font-bold text-red-600 mb-2">Error</h2>
+                    <p className="text-gray-600">{error}</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="text-center">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Authentication Required</h2>
+                    <p className="text-gray-600">Please log in to view your sessions.</p>
+                </div>
+            </div>
+        );
+    }
+
   return (
     <div className='flex flex-col w-full'>
         <Hero title={'All Your Sessions'} description={'Below you will find all the sessions you have paid for.'}/>

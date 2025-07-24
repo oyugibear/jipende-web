@@ -1,7 +1,7 @@
 'use client'
 
 import { API_URL } from '@/config/api.config'
-import { useUser } from '@/context'
+import { useAuth } from '@/context/AuthContext'
 import { Descriptions, message } from 'antd'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
@@ -29,7 +29,7 @@ export default function page({}) {
     const [profileData, setProfileData] = useState(null)
     const { id } = useParams();
 
-    const { user } = useUser()
+    const { user } = useAuth()
   
     const getData = async () => {
       const data = await getUser(id) || null

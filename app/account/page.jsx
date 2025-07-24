@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Information from '@/components/Pages/Account/Information'
 import Hero from '@/components/Constants/Hero'
 import { API_URL } from '@/config/api.config'
-import { useUser } from '@/context'
+import { useAuth } from '@/context/AuthContext'
 
 async function getBookings(id){
   const res = await fetch(`${API_URL}/bookings/user/${id}`,  {cache: "no-store"})
@@ -16,7 +16,7 @@ async function getPayments(id){
 }
 
 export default function Page() {
-  const { user } = useUser()
+  const { user, isAuthenticated } = useAuth()
   const [bookings, setBookings] = useState(null)
   const [payments, setPayments] = useState(null)
 

@@ -3,38 +3,40 @@
 import SimpleLoading from '@/components/Constants/Loading/SimpleLoading'
 import Hero from '@/components/Pages/Services/Hero'
 import Card from '@/components/Pages/Services/ServiceCard/Card'
-import { API_URL } from '@/config/api.config'
 import { Dropdown } from 'antd'
-
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowDropdownCircle } from 'react-icons/io'
+import { api } from '@/utils/api'
 
-async function fetchServices() {
-    const res = await fetch(`${API_URL}/services`, { cache: "no-store" });
-    return res.json();
-}
-
-export default  function Page() {
-
+export default function Page() {
     const [hasMounted, setHasMounted] = useState(false)
-
-    useEffect(() => {
-        setHasMounted(true)
-    }, [])
-
-
     const [services, setServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
     const [therapyType, setTherapyType] = useState('');
     const [price, setPrice] = useState('');
     const [location, setLocation] = useState('');
-
     const [filtered, setFiltered] = useState(false);
-    
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        setHasMounted(true)
+    }, [])
+
     useEffect(() => {
         async function loadServices() {
-            const data = await fetchServices();
-            setServices(data || []);
+            try {
+                setLoading(true);
+                setError(null);
+                const response = await api.get('/services');
+                setServices(response.data || []);
+            } catch (error) {
+                console.error("Error fetching services:", error);
+                setError("Failed to load services. Please try again later.");
+                setServices([]);
+            } finally {
+                setLoading(false);
+            }
         }
         loadServices();
     }, []);
@@ -56,11 +58,11 @@ export default  function Page() {
     // filters
     useEffect(() => {
         if (therapyType) {
-            setFilteredServices(services.data.filter(service => service.category === therapyType));
+            setFilteredServices(services.filter(service => service.category === therapyType));
         }
 
         if (location) {
-            setFilteredServices(services.data.filter(service => service.location === location))
+            setFilteredServices(services.filter(service => service.location === location))
         }
     }, [therapyType, location]);
 
@@ -72,7 +74,7 @@ export default  function Page() {
             const selectedItem = therapyItems.find(item => item.key === e.key);
             if( selectedItem?.value === 'All') {
                 setTherapyType('');
-                setFilteredServices(services.data || []);
+                setFilteredServices(services || []);
                 setFiltered(false);
                 return;
             }
@@ -83,7 +85,7 @@ export default  function Page() {
             console.log("first selectedItem", selectedItem);
             if( selectedItem?.value === 'All') {
                 setLocation('');
-                setFilteredServices(services.data || []);
+                setFilteredServices(services || []);
                 setFiltered(false);
                 return;
             }
@@ -93,7 +95,17 @@ export default  function Page() {
 
     console.log("filteredServices", filteredServices);
     if (!hasMounted) return (<SimpleLoading />)
-    if (!services.data) return (<SimpleLoading />)
+    if (loading) return (<SimpleLoading />)
+    if (error) return (
+        <div className="w-full h-full flex flex-col items-center justify-center">
+            <p className="text-red-600">{error}</p>
+        </div>
+    )
+    if (!services || services.length === 0) return (
+        <div className="w-full h-full flex flex-col items-center justify-center">
+            <p>No services available at the moment.</p>
+        </div>
+    )
   return (
     <div className='w-full h-full flex flex-col items-center justify-center'>
         <Hero />
@@ -129,7 +141,7 @@ export default  function Page() {
                     </>
                 ) : (
                     <>
-                        {services?.data?.map((service) => (
+                        {services?.map((service) => (
                             <Card service={service} key={service._id}/>
                         ))}
                     </>

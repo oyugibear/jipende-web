@@ -11,7 +11,7 @@ import { BiChevronDown } from 'react-icons/bi'
 
 import { Dropdown, Space } from 'antd';
 import { useRouter } from 'next/navigation'
-import { useLogout, useUser } from '@/context'
+import { useAuth } from '@/context/AuthContext'
 import { useSelector } from 'react-redux'
 import SimpleLoading from '../Constants/Loading/SimpleLoading'
 
@@ -19,16 +19,14 @@ import SimpleLoading from '../Constants/Loading/SimpleLoading'
 export default function Navbar() {
 
     const quantity = useSelector((state) => state?.cart?.quantity)
+    const { user, isAuthenticated, logout } = useAuth()
 
     const [hasMounted, setHasMounted] = useState(false)
-    const logout = useLogout()
     const router = useRouter()
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
       setOpen(true);
     };
-
-    const { user, userloading } = useUser()
   
     const onClose = () => {
       setOpen(false);
@@ -36,7 +34,7 @@ export default function Navbar() {
 
     const handleLogout = () => {
         logout()
-        router.push("/auth/signin")
+        router.push("/auth/login")
     } 
 
     const items = [
@@ -107,7 +105,7 @@ export default function Navbar() {
                         <p className='pl-2'>Services</p>
                     </button>
                 </Link>
-                { user ? (
+                { isAuthenticated ? (
                     <Link href='/sessions'>
                         <button className='flex flex-row items-center'>
                             <PiPersonSimple size={25} />
@@ -131,8 +129,8 @@ export default function Navbar() {
                     </Link>
                 </Badge>
             </div>
-            { !user ? (
-                <Link href='/auth/signin'>
+            { !isAuthenticated ? (
+                <Link href='/auth/login'>
                     <button>Sign In / Sign Up</button>
                 </Link>
             ) : (
@@ -141,7 +139,7 @@ export default function Navbar() {
                         <a onClick={(e) => e.preventDefault()}>
                         <Space>
                             <p className='flex flex-row items-center gap-2'>
-                                <p>{user.first_name}</p>
+                                <p>{user?.first_name || 'Admin'}</p>
                                 <BiChevronDown size={20}/>
                             </p>
                         </Space>
@@ -152,7 +150,7 @@ export default function Navbar() {
                         <a onClick={(e) => e.preventDefault()}>
                         <Space>
                             <p className='flex flex-row items-center gap-2'>
-                                <p>{user.first_name}</p>
+                                <p>{user?.first_name || 'User'}</p>
                                 <BiChevronDown size={20}/>
                             </p>
                         </Space>

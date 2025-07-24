@@ -5,13 +5,13 @@ import { API_URL } from '@/config/api.config'
 import { Button, Upload, message } from 'antd'
 import axios from 'axios'
 import { BsDownload } from 'react-icons/bs'
-import { useUser } from '@/context'
+import { useAuth } from '@/context/AuthContext'
 import ServicesList from '@/app/admin/ServicesList'
 import BlogList from '@/app/admin/BlogList'
 
 export default function WebsiteControls({services, blogs, setRefresh}) {
 
-    const { user } = useUser()
+    const { user } = useAuth()
 
     const [click, setClick] = useState('')
 
@@ -46,7 +46,7 @@ export default function WebsiteControls({services, blogs, setRefresh}) {
         }
 
         try {
-            const {data} = await axios.post(`${API_URL}/blog/add`, details)
+            const {data} = await axios.post(`${API_URL}/blogs/add`, details)
 
             if(data){
                 message.success("New Blog Created")

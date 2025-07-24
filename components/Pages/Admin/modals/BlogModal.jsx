@@ -70,7 +70,7 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
         formData.append('category', category);
         formData.append('status', status);
 
-        const { data } = await axios.post(`${API_URL}/blog/add`, formData, {
+        const { data } = await axios.post(`${API_URL}/blogs/add`, formData, {
           headers: {
               'Content-Type': 'multipart/form-data',
           },
@@ -129,7 +129,7 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
                 return;
             }
         
-            const { data } = await axios.put(`${API_URL}/blog/${details?._id}`, updatedData);
+            const { data } = await axios.put(`${API_URL}/blogs/${details?._id}`, updatedData);
             if (data) {
                 message.success('blog updated successfully');
                 setRefresh(true);

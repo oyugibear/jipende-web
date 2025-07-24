@@ -26,12 +26,10 @@ const cartSlice = createSlice({
             state.products.push(productWithDateTime);
             state.quantity += 1;
             
-            // Calculate total amount
-            let totalAmount = Number(state.totalAmount);
-            state.products.forEach((product) => {
-                totalAmount += Number(product.price);
-            });
-            state.totalAmount = totalAmount;
+            // Calculate total amount properly
+            state.totalAmount = state.products.reduce((total, product) => {
+                return total + Number(product.price);
+            }, 0);
             
             // Save state to local storage
             if (typeof window !== 'undefined') {
@@ -41,25 +39,29 @@ const cartSlice = createSlice({
         
         removeProductFromCart: (state, action) => {
             const { id } = action.payload;
-            console.log("Removing product with ID:", state);
-            const productIndex = state.cart.products.findIndex((p) => p.product._id === id)
+            console.log("Removing product with ID:", id);
+            const productIndex = state.products.findIndex((p) => p._id === id);
       
             if (productIndex !== -1) {
               // If the product is found in the cart, remove it
-              const productToRemove = state.products[productIndex]
-              state.products.splice(productIndex, 1)
-              state.total -= productToRemove.price
-              state.totalAmount -= productToRemove.price
-              state.quantity -= productToRemove.quantity
+              state.products.splice(productIndex, 1);
+              state.quantity -= 1;
+              
+              // Recalculate total amount
+              state.totalAmount = state.products.reduce((total, product) => {
+                return total + Number(product.price);
+              }, 0);
             }
-      
-            // Update the total price of the cart
-            state.total = state.products.reduce((acc, p) => acc + p.price, 0)
+            
+            // Save state to local storage
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('cart', JSON.stringify(state));
+            }
         },
         
         reset: (state) => {
             state.products = [];
-            state.total = 0;
+            state.totalAmount = 0;
             state.quantity = 0;
             
             // Delete content in local storage

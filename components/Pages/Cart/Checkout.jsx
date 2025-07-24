@@ -2,10 +2,9 @@
 
 import React, { useState } from 'react'
 import CheckoutLabel from './CheckoutLabel'
-import axios from 'axios'
-import { API_URL } from '@/config/api.config'
 import { message } from 'antd'
-import { useUser } from '@/context'
+import { useAuth } from '@/context/AuthContext'
+import { bookingAPI } from '@/utils/api'
 import { reset } from '@/app/GlobalRedux/Features/cart/CartSlice'; 
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
@@ -16,7 +15,7 @@ export default function Checkout({cart}) {
     // console.log(cart)
 
     let tax = cart.totalAmount * 0.16
-    const { user } = useUser()
+    const { user, isAuthenticated } = useAuth()
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -24,25 +23,34 @@ export default function Checkout({cart}) {
     const handleClick = async (e) => {
         e.preventDefault();
         
+        if (!isAuthenticated) {
+            message.warning('Please login to continue');
+            router.push('/auth/login');
+            return;
+        }
+        
         try {
-            const { data } = await axios.post(`${API_URL}/booking/add`, {
+            const bookingData = {
                 services: cart.products,
                 final_amount: cart.totalAmount,
                 vat: tax,
-                postedBy: user._id,
-                user: user
-            })
-            if (data) {
+            };
+
+            const response = await bookingAPI.create(bookingData);
+            
+            if (response && response.status) {
                 message.success("Kindly pay for your order to proceed");
                 dispatch(reset());
                 
-                console.log("Payment link", data.paymentLink)
-                if (data.data.paymentLink) {
-                    window.location.href = data.data.paymentLink; // Open the payment link in a new tab
+                console.log("Payment link", response.data.paymentLink)
+                if (response.data.paymentLink) {
+                    window.location.href = response.data.paymentLink;
                 } else {
-                  message.error("Payment link is not available");
+                    message.error("Payment link is not available");
                 }
-              }
+            } else {
+                message.error(response?.message || "Your Payment Has Not Gone Through");
+            }
         } catch (error) {
             console.log(error)
             message.error("Your Payment Has Not Gone Through")   
@@ -82,8 +90,8 @@ export default function Checkout({cart}) {
             {/* <button onClick={() => setPaymentOptionClicked("Card")} className='bg-black text-sm w-full text-white py-4'>
                 Pay With Card
             </button> */}
-            {!user ? (
-                <Link href='/auth/signin'>
+            {!isAuthenticated ? (
+                <Link href='/auth/login'>
                     <button className='bg-[#FFD02A] text-sm w-full px-4 text-black py-4'>
                         Sign in to continue
                     </button>

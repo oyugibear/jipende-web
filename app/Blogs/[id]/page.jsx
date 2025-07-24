@@ -5,7 +5,7 @@ import { API_URL } from '@/config/api.config'
 import React, { useEffect, useState } from 'react'
 
 async function getBlog(productId) {
-  const res = await fetch(`${API_URL}/blog/${productId}`, { cache: "no-store" })
+  const res = await fetch(`${API_URL}/blogs/${productId}`, { cache: "no-store" })
   return res.json()
 }
 

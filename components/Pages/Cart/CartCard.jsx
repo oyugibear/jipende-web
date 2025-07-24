@@ -21,7 +21,7 @@ export default function CartCard({data}) {
     <div className='w-full flex flex-col max-w-[800px] '>
         <div className='flex flex-row justify-between py-4 gap-4 my-4'>
             <div className='flex flex-col gap-4 md:flex-row justify-evenly items-start pl-4'>
-              <Image src='/assets/cart/cartPic.png' alt='cart card image' width={216} height={145} className='max-w-[100px] object-contain md:w-full' />
+              <Image src={data?.picture || '/assets/cart/cartPic.png'} alt='cart card image' width={216} height={145} className='max-w-[100px] object-contain md:w-full' />
               <div className='flex flex-col items-start'>
                 <p className='font-medium text-xl'>{data?.title}</p>
                 <div className='flex flex-col items-start '>
