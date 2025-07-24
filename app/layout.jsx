@@ -5,6 +5,7 @@ import Footer from '@/components/Navigation/Footer'
 import { UserProvider } from '@/context'
 import { Providers } from './GlobalRedux/provider'
 
+
 const montserrat = Montserrat({ subsets: ['latin'] })
 
 export const metadata= {
@@ -13,10 +14,10 @@ export const metadata= {
 }
 
 
-
 export default function RootLayout({
   children,
 }) {
+
   return (
     <html lang="en">
       <UserProvider children={children}>

@@ -1,8 +1,9 @@
 'use client'
 
 import PictureHero from '@/components/Constants/PictureHero'
+import PDFViewer from '@/components/Constants/views/PDFViewer'
 import InfoCard from '@/components/Pages/ServiceDescriptions/InfoCard'
-import Image from 'next/image'
+import { Image } from 'antd'
 import React from 'react'
 
 export default function page() {
@@ -57,7 +58,7 @@ export default function page() {
     ]
   return (
     <div className='w-full flex flex-col items-center justify-center'>
-        <PictureHero title='Our services' description='' imgPath='/assets/about/home.jpg' />
+        <PictureHero title='Our Services' description='' imgPath='/assets/about/home.jpg' />
         <div className='flex max-w-[1024px] w-full p-4 my-12 flex-col items-center gap-6'>
             {serviceInfo.map((item, index) => (
                 <div className=''>
@@ -65,14 +66,8 @@ export default function page() {
                     <hr />
                 </div>
             ))}
-
-            <iframe
             
-            src={`/assets/pdfs/pdfs.pdf`}
-            width="100%"
-            height="600px"
-            className='max-w-[1024px] w-full'
-            />
+            <PDFViewer />
 
             <hr className='pt-4 w-full'/>
 
