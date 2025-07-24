@@ -10,7 +10,7 @@ export default function Card() {
         <div className='absolute bg-gradient-to-tr from-black/30 to-yellow-100/20 w-full h-full rounded-xl border-2 border-yellow-400'/>
         <div className='absolute flex flex-row items-center bottom-5 left-5'>
             <p className='text-white text-sm'>
-                Feeling down, wanna to talk <br /> about it to professional and <br /> experienced  therapists 
+              Feeling down, wanna to talk <br /> about it to professional and <br /> experienced  therapists 
             </p>
             <PiArrowRight size={25} className='text-yellow-500 pl-2'/>
         </div>
