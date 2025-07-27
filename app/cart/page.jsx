@@ -146,7 +146,7 @@ export default function CartPage() {
                 {/* Continue Shopping Button */}
                 <button
                   onClick={handleContinueShopping}
-                  className='bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors duration-200 self-start'
+                  className='bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 text-xs gap-2 rounded-lg font-medium transition-colors duration-200 self-start'
                 >
                   ← Continue Shopping
                 </button>

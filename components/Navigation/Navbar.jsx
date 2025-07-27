@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import {PiBrainThin, PiPersonSimple, PiShoppingBagOpenLight, PiHouseLine, PiDoorOpen, PiSpeakerHifi, PiBrain, PiFacebookLogo, PiInstagramLogo, PiTwitterLogo, PiY, PiVideoCameraoutubeLogo, PiYoutu, PiPersonSimplebeLogo, PiYoutubeLogo, PiBookLight} from 'react-icons/pi'
+import {PiBrainThin, PiPersonSimple, PiShoppingBagOpenLight, PiHouseLine, PiDoorOpen, PiSpeakerHifi, PiBrain, PiFacebookLogo, PiInstagramLogo, PiTwitterLogo, PiY, PiVideoCameraoutubeLogo, PiYoutu, PiPersonSimplebeLogo, PiYoutubeLogo, PiBookLight, PiInfo, PiPhone, PiFileText} from 'react-icons/pi'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { BsPersonBadge } from 'react-icons/bs'
 import { Drawer, Badge } from 'antd';
@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { useSelector } from 'react-redux'
 import SimpleLoading from '../Constants/Loading/SimpleLoading'
+import { MdAdminPanelSettings } from 'react-icons/md'
 
  
 export default function Navbar() {
@@ -165,88 +166,203 @@ export default function Navbar() {
         </div>
 
         {/* Drawer/ SideBar */}
-        <Drawer width={250} placement="left" onClose={onClose} closable={false} open={open}>
-            <div className='flex flex-col w-full h-full justify-between'>
-                <div className='flex flex-col items-center w-full h-full'>
-                    <div className='flex flex-row items-center justify-between w-full'>
-                        <Link href='/'>
-                            <Image  src='/assets/logo1.png' alt='logo' width={60} height={60} className=''/>
+        <Drawer 
+            width={280} 
+            placement="left" 
+            onClose={onClose} 
+            closable={false} 
+            open={open}
+            styles={{
+                body: { padding: 0 }
+            }}
+        >
+            <div className='flex flex-col w-full h-full justify-between bg-white'>
+                {/* Header Section */}
+                <div className='flex flex-col w-full'>
+                    {/* Top Bar with Logo and Cart */}
+                    <div className='flex flex-row items-center justify-between w-full p-6 pb-4 border-b border-yellow-200/50'>
+                        <Link href='/' onClick={onClose}>
+                            <Image src='/assets/logo1.png' alt='logo' width={70} height={70} className='hover:scale-105 transition-transform duration-200'/>
                         </Link>
-                        <Link href='/cart'>
-                            <Badge count={5}>
-                                <div className=' rounded-full'>
-                                    <PiShoppingBagOpenLight size={25} />
+                        <Link href='/cart' onClick={onClose}>
+                            <Badge count={quantity} showZero>
+                                <div className='p-3 rounded-full bg-white/80 shadow-sm hover:bg-white hover:shadow-md transition-all duration-200'>
+                                    <PiShoppingBagOpenLight size={24} className="text-gray-700" />
                                 </div>
                             </Badge>
                         </Link>
                     </div>
 
-                    <div className='flex flex-col w-full mt-8 gap-4'>
-                        <Link href='/'>
-                            <div onClick={onClose} className='flex flex-row items-center p-4 w-full active:bg-yellow-500 rounded-md'>
-                                <PiHouseLine size={30} />
-                                <p className='pl-4'>Home Page</p>
+                    {/* User Welcome Section */}
+                    {user && (
+                        <div className='px-6 py-4 border-b border-yellow-200/50'>
+                            <div className='flex items-center gap-3'>
+                                <div className='w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center'>
+                                    <span className='text-white font-semibold text-lg'>
+                                        {user.first_name?.charAt(0) || 'U'}
+                                    </span>
+                                </div>
+                                <div>
+                                    <p className='font-semibold text-gray-800'>
+                                        Hello, {user.first_name || 'User'}!
+                                    </p>
+                                    <p className='text-sm text-gray-600'>Welcome back</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Navigation Menu */}
+                    <div className='flex flex-col w-full px-4 py-6 gap-2'>
+                        <Link href='/' onClick={onClose}>
+                            <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                <div className='p-2 rounded-lg bg-white/80 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-200'>
+                                    <PiHouseLine size={24} />
+                                </div>
+                                <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>Home</p>
                             </div>                
                         </Link>
-                        <Link href='/services'>
-                            <div onClick={onClose} className='flex flex-row items-center p-4 w-full active:bg-yellow-500 rounded-md'>
-                                <PiBrain size={30} />
-                                <p className='pl-4'>Services</p>
+                        
+                        <Link href='/services' onClick={onClose}>
+                            <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                <div className='p-2 rounded-lg bg-white/80 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-200'>
+                                    <PiBrain size={24} />
+                                </div>
+                                <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>Services</p>
                             </div>                
                         </Link>
+
+                        <Link href='/Blogs' onClick={onClose}>
+                            <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                <div className='p-2 rounded-lg bg-white/80 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-200'>
+                                    <PiBookLight size={24} />
+                                </div>
+                                <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>Blogs</p>
+                            </div>                
+                        </Link>
+
+                        <Link href='/about' onClick={onClose}>
+                            <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                <div className='p-2 rounded-lg bg-white/80 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-200'>
+                                    <PiInfo size={24} />
+                                </div>
+                                <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>About Us</p>
+                            </div>                
+                        </Link>
+
+                        <Link href='/contacts' onClick={onClose}>
+                            <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                <div className='p-2 rounded-lg bg-white/80 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-200'>
+                                    <PiPhone size={24} />
+                                </div>
+                                <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>Contact</p>
+                            </div>                
+                        </Link>
+                        
                         { user ? (
                             <>
-                                <Link href='/sessions'>
-                                    <div onClick={onClose} className='flex flex-row items-center p-4 w-full active:bg-yellow-500 rounded-md'>
-                                        <PiPersonSimple size={30} />
-                                        <p className='pl-4'>Sessions</p>
+                                <div className='w-full h-px  my-2'></div>
+                                
+                                <Link href='/sessions' onClick={onClose}>
+                                    <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                        <div className='p-2 rounded-lg bg-white/80 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-200'>
+                                            <PiPersonSimple size={24} />
+                                        </div>
+                                        <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>My Sessions</p>
                                     </div>                
                                 </Link>
-                                <Link href='/account'>
-                                    <div onClick={onClose} className='flex flex-row items-center p-4 w-full active:bg-yellow-500 rounded-md'>
-                                        <BsPersonBadge size={30} />
-                                        <p className='pl-4'>Account</p>
+                                
+                                <Link href='/account' onClick={onClose}>
+                                    <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                        <div className='p-2 rounded-lg bg-white/80 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-200'>
+                                            <BsPersonBadge size={24} />
+                                        </div>
+                                        <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>My Account</p>
+                                    </div>                
+                                </Link>
+
+                                {user?.role === 'Admin' && (
+                                    <Link href='/admin' onClick={onClose}>
+                                        <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                            <div className='p-2 rounded-lg bg-white/80 group-hover:bg-purple-500 group-hover:text-white transition-all duration-200'>
+                                                <MdAdminPanelSettings size={24} />
+                                            </div>
+                                            <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>Admin Panel</p>
+                                        </div>                
+                                    </Link>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <div className='w-full h-px  my-4'></div>
+                                
+                                <Link href='/auth/login' onClick={onClose}>
+                                    <div className='flex flex-row items-center p-4 w-full hover:bg-white/60 active:bg-yellow-100 rounded-xl transition-all duration-200 group'>
+                                        <div className='p-2 rounded-lg bg-yellow-500 text-white group-hover:bg-yellow-600 transition-all duration-200'>
+                                            <PiDoorOpen size={24} />
+                                        </div>
+                                        <p className='pl-4 font-medium text-gray-800 group-hover:text-gray-900'>Sign In / Sign Up</p>
                                     </div>                
                                 </Link>
                             </>
-                        ) : (
-                            <Link href='/Blogs'>
-                                <div onClick={onClose} className='flex flex-row items-center p-4 w-full active:bg-yellow-500 rounded-md'>
-                                    <PiBookLight size={30} />
-                                    <p className='pl-4'>Blogs</p>
+                        )}
+
+                        {user && (
+                            <>
+                                <div className='w-full h-px  my-4'></div>
+                                
+                                <button 
+                                    onClick={() => {
+                                        handleLogout();
+                                        onClose();
+                                    }}
+                                    className='flex flex-row items-center p-4 w-full hover:bg-red-50 active:bg-red-100 rounded-xl transition-all duration-200 group'
+                                >
+                                    <div className='p-2 rounded-lg bg-red-500 text-white group-hover:bg-red-600 transition-all duration-200'>
+                                        <PiDoorOpen size={24} />
+                                    </div>
+                                    <p className='pl-4 font-medium text-red-600 group-hover:text-red-700'>Log Out</p>
+                                </button>
+                            </>
+                        )}
+
+                        {/* Terms and Privacy Links */}
+                        <div className='mt-6 pt-4 border-t border-yellow-200/50'>
+                            <Link href='/terms' onClick={onClose}>
+                                <div className='flex flex-row items-center p-3 w-full hover:bg-white/40 rounded-lg transition-all duration-200'>
+                                    <PiFileText size={18} className="text-gray-500" />
+                                    <p className='pl-3 text-sm text-gray-600'>Terms & Privacy</p>
                                 </div>                
                             </Link>
-                        )}
-                        <Link href='/auth/signin'>
-                            <div onClick={onClose} className='flex flex-row items-center p-4 w-full active:bg-yellow-500 rounded-md'>
-                                <PiDoorOpen size={30} />
-                                <p className='pl-4'>Sign In</p>
-                            </div>                
-                        </Link>
+                        </div>
                     </div>
                 </div>
 
-                <div className='flex flex-row items-center justify-evenly'>
-                    <Link href='https://www.facebook.com/jipendewellness/' target='_blank'>
-                        <div className='p-2 border rounded-full bg-yellow-500'>
-                            <PiFacebookLogo size={25}/>
-                        </div>
-                    </Link>
-                    <Link href='https://www.instagram.com/jipendewellness/?hl=en' target='_blank'>
-                        <div className='p-2 border rounded-full bg-yellow-500'>
-                            <PiInstagramLogo size={25}/>
-                        </div>
-                    </Link>
-                    <Link href='https://x.com/jipendewellness?lang=en' target='_blank'>
-                        <div className='p-2 border rounded-full bg-yellow-500'>
-                            <PiTwitterLogo size={25}/>
-                        </div>
-                    </Link>
-                    <Link href='https://www.youtube.com/@africajipendewellness9825' target='_blank'>
-                        <div className='p-2 border rounded-full bg-yellow-500'>
-                            <PiYoutubeLogo size={25}/>
-                        </div>
-                    </Link>
+                {/* Footer Social Links */}
+                <div className='px-6 py-6 border-t border-yellow-200/50 bg-white/30'>
+                    <p className='text-sm text-gray-600 mb-4 text-center font-medium'>Connect with us</p>
+                    <div className='flex flex-row items-center justify-center gap-4'>
+                        <Link href='https://www.facebook.com/jipendewellness/' target='_blank'>
+                            <div className='p-3 rounded-full bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105'>
+                                <PiFacebookLogo size={20} className="text-white"/>
+                            </div>
+                        </Link>
+                        <Link href='https://www.instagram.com/jipendewellness/?hl=en' target='_blank'>
+                            <div className='p-3 rounded-full bg-pink-500 hover:bg-pink-600 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105'>
+                                <PiInstagramLogo size={20} className="text-white"/>
+                            </div>
+                        </Link>
+                        <Link href='https://x.com/jipendewellness?lang=en' target='_blank'>
+                            <div className='p-3 rounded-full bg-black hover:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105'>
+                                <PiTwitterLogo size={20} className="text-white"/>
+                            </div>
+                        </Link>
+                        <Link href='https://www.youtube.com/@africajipendewellness9825' target='_blank'>
+                            <div className='p-3 rounded-full bg-red-500 hover:bg-red-600 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105'>
+                                <PiYoutubeLogo size={20} className="text-white"/>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </Drawer>
