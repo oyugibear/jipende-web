@@ -6,7 +6,7 @@ import BasicTextArea from '@/components/Constants/fields/BasicTextArea'
 import MultipleChoiceRadio from '@/components/Constants/fields/MultipleChoiceRadio'
 import PictureHero from '@/components/Constants/PictureHero'
 import { API_URL } from '@/config/api.config'
-import { useUser } from '@/context'
+import { useAuth } from '@/context/AuthContext'
 import { message } from 'antd'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react'
 
 export default function page() {
 
-  const { user } = useUser()
+  const { user } = useAuth()
   const router = useRouter()
   useEffect(() => {
     if(!user){

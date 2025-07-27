@@ -2,44 +2,90 @@
 
 import { removeProductFromCart } from '@/app/GlobalRedux/Features/cart/CartSlice'
 import Image from 'next/image'
-import React from 'react'
-import { PiTrash } from 'react-icons/pi'
+import React, { useState } from 'react'
+import { PiTrash, PiClock, PiCalendar } from 'react-icons/pi'
 import { useDispatch } from 'react-redux'
+import { Modal, message } from 'antd'
 
 export default function CartCard({data}) {
-
-  // const [dates, setDates] = useState('')
-  console.log("Cart Card:%%%%",data)
-
+  const [removing, setRemoving] = useState(false)
   const dispatch = useDispatch();
 
   const handleRemove = () => {
-    dispatch(removeProductFromCart({ id: data?._id }))
+    Modal.confirm({
+      title: 'Remove Item',
+      content: `Are you sure you want to remove "${data?.title}" from your cart?`,
+      okText: 'Yes, Remove',
+      cancelText: 'Cancel',
+      okType: 'danger',
+      onOk: () => {
+        setRemoving(true)
+        setTimeout(() => {
+          dispatch(removeProductFromCart({ id: data?._id }))
+          message.success('Item removed from cart')
+          setRemoving(false)
+        }, 300)
+      }
+    });
   }
 
   return (
-    <div className='w-full flex flex-col max-w-[800px] '>
-        <div className='flex flex-row justify-between py-4 gap-4 my-4'>
-            <div className='flex flex-col gap-4 md:flex-row justify-evenly items-start pl-4'>
-              <Image src='/assets/cart/cartPic.png' alt='cart card image' width={216} height={145} className='max-w-[100px] object-contain md:w-full' />
-              <div className='flex flex-col items-start'>
-                <p className='font-medium text-xl'>{data?.title}</p>
-                <div className='flex flex-col items-start '>
-                  <div className='flex text-sm text-gray-400 flex-row items-center gap-2'>
-                    <p className='text-yellow-500 font-bold'>Selected Date</p>
-                    <p>{data?.date}</p>
-                  </div>
-                  <div className='flex text-sm text-gray-400 flex-row items-center gap-2'>
-                    <p className='text-yellow-500 font-bold'>Selected time</p>
-                    <p>{data?.time}</p>
-                  </div>
-                </div>
-                <p className='text-lg font-light my-2'>KSH {data.price}</p>
-              </div>
-            </div>
-              <PiTrash onClick={handleRemove} size={20}/>
+    <div className={`w-full transition-all duration-300 ${removing ? 'opacity-50 transform scale-95' : 'opacity-100'}`}>
+      <div className='flex flex-row justify-between items-start gap-4 p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200'>
+        {/* Service Image */}
+        <div className='flex-shrink-0'>
+          <div className='relative w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden shadow-sm'>
+            <Image 
+              src={data?.picture || '/assets/cart/cartPic.png'} 
+              alt={data?.title || 'Service image'} 
+              fill
+              className='object-cover'
+            />
+          </div>
         </div>
-        <hr />
+
+        {/* Service Details */}
+        <div className='flex-1 min-w-0'>
+          <h3 className='font-semibold text-lg text-gray-900 mb-2 truncate'>
+            {data?.title}
+          </h3>
+          
+          {/* Date and Time */}
+          <div className='space-y-1 mb-3'>
+            {data?.date && (
+              <div className='flex items-center gap-2 text-sm text-gray-600'>
+                <PiCalendar size={16} className='text-yellow-500' />
+                <span className='font-medium text-yellow-600'>Date:</span>
+                <span>{data?.date}</span>
+              </div>
+            )}
+            {data?.time && (
+              <div className='flex items-center gap-2 text-sm text-gray-600'>
+                <PiClock size={16} className='text-yellow-500' />
+                <span className='font-medium text-yellow-600'>Time:</span>
+                <span>{data?.time}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Price */}
+          <div className='flex items-center justify-between'>
+            <p className='text-xl font-bold text-gray-900'>
+              KSH {data?.price?.toLocaleString()}
+            </p>
+          </div>
+        </div>
+
+        {/* Remove Button */}
+        <button
+          onClick={handleRemove}
+          disabled={removing}
+          className='flex-shrink-0 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200 disabled:opacity-50'
+          title="Remove from cart"
+        >
+          <PiTrash size={20} />
+        </button>
+      </div>
     </div>
   )
 }

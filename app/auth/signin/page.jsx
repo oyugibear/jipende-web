@@ -1,38 +1,44 @@
 "use client"
 
 import Link from 'next/link'
-import React, { useContext, useState } from 'react'
-import { loginUser } from "@/services/users"
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { message } from 'antd';
-import { UserContext } from '@/context';
+import { useAuth } from '@/context/AuthContext';
+
 export default function page() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { updateUser } = useContext(UserContext)
+  const { login } = useAuth();
 
 
   const router = useRouter()
 
-  const handleSubmit = async (e ) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const credentials = {
-      email: email,
-      password: password,
+    
+    if (!email || !password) {
+      message.error('Please fill in all fields');
+      return;
     }
 
     try {
-      const  data  = await loginUser(credentials)
-      if (data && !data.error) {
-        updateUser(data.user);
-        router.push("/");
+      const result = await login(email, password);
+      
+      if (result.success) {
+        message.success('Login successful!');
+        // Redirect admin users to admin panel, others to home
+        if (result.data.user.role === 'Admin') {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
       } else {
-        
-        throw new Error(data.error || "Invalid response format from server"); 
+        message.error(result.message || 'Login failed. Please check your credentials.');
       }
     } catch (error) {
-      console.log(error)
+      message.error('Login failed. Please try again.');
     }
   }
 

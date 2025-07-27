@@ -1,45 +1,37 @@
 'use client'
 
 import WebsiteControls from '@/components/Pages/Admin/WebsiteControls'
-import { API_URL } from '@/config/api.config'
-import { useUser } from '@/context'
-import { Button, Upload, message } from 'antd'
+import { useAuth } from '@/context/AuthContext'
+import { Button, Upload, message, Card, Statistic, Row, Col, Progress, Timeline, List, Avatar } from 'antd'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { BsDownload } from 'react-icons/bs'
+import { 
+    UserOutlined, 
+    ShoppingOutlined, 
+    CalendarOutlined, 
+    DollarOutlined,
+    TrendingUpOutlined,
+    TeamOutlined,
+    ClockCircleOutlined,
+    FileTextOutlined,
+    CrownOutlined
+} from '@ant-design/icons'
 import Widgets from './Widgets'
 import Sessions from './Sessions'
 import UserList from './UserList'
 import PaymentsList from './PaymentsList'
 import SimpleLoading from '@/components/Constants/Loading/SimpleLoading'
 import SimpleRedirect from '@/components/Constants/Loading/SimpleRedirect'
-
-async function getUsers(){
-    const res = await fetch(`${API_URL}/users`, {cache: "reload"})
-    return res.json()
-}
-async function getServices(){
-    const res = await fetch(`${API_URL}/services`, {cache: "reload"})
-    return res.json()
-}
-async function getBlogs(){
-    const res = await fetch(`${API_URL}/blogs`, {cache: "reload"})
-    return res.json()
-}
-async function getBookings(){
-    const res = await fetch(`${API_URL}/bookings`, {cache: "reload"})
-    return res.json()
-}
-async function getPayments(){
-    const res = await fetch(`${API_URL}/payments`, {cache: "reload"})
-    return res.json()
-}
-
+import { userAPI, serviceAPI, blogAPI, bookingAPI, paymentAPI } from '@/utils/api'
+import TopStatsGrid from '@/components/Pages/Admin/TopStatsGrid'
+import SecondaryStatsGrid from '@/components/Pages/Admin/SecondaryStatsGrid'
+import ActivityOverviewGrid from '@/components/Pages/Admin/ActivityOverviewGrid'
 
 export default function page() {
     
-    const { user, userloading } = useUser()
+    const { user, isAuthenticated, loading } = useAuth()
     const router = useRouter()
     const [hasMounted, setHasMounted] = useState(false)
 
@@ -60,38 +52,140 @@ export default function page() {
     const [bookings, setBookings] = useState([]);
     const [payments, setPayments] = useState([]);
     const [blogs, setBlogs] = useState([]);
+    const [dataLoading, setDataLoading] = useState(true);
 
     useEffect(() => {
-        getUsers().then(data => setUsers(data));
-        getServices().then(data => setServices(data));
-        getBlogs().then(data => setBlogs(data));
-        getBookings().then(data => setBookings(data));
-        getPayments().then(data => setPayments(data));
-    }, [refresh]);
+        const fetchData = async () => {
+            if (user && user.role === 'Admin') {
+                try {
+                    setDataLoading(true);
+                    
+                    const [usersData, servicesData, blogsData, bookingsData, paymentsData] = await Promise.allSettled([
+                        userAPI.getAll(),
+                        serviceAPI.getAll(), 
+                        blogAPI.getAll(),
+                        bookingAPI.getAll(),
+                        paymentAPI.getAll()
+                    ]);
+                    
+                    setUsers(usersData.status === 'fulfilled' ? usersData.value?.data || [] : []);
+                    setServices(servicesData.status === 'fulfilled' ? servicesData.value?.data || [] : []);
+                    setBlogs(blogsData.status === 'fulfilled' ? blogsData.value?.data || [] : []);
+                    setBookings(bookingsData.status === 'fulfilled' ? bookingsData.value?.data || [] : []);
+                    setPayments(paymentsData.status === 'fulfilled' ? paymentsData.value?.data || [] : []);
+                    
+                } catch (error) {
+                    console.error('Error fetching admin data:', error);
+                    message.error('Failed to load admin data');
+                } finally {
+                    setDataLoading(false);
+                }
+            } else {
+                setDataLoading(false);
+            }
+        };
+        
+        fetchData();
+    }, [refresh, user]);
 
-    console.log(users)
+    
+    // Calculate dashboard metrics
+    const dashboardStats = {
+        totalUsers: users?.length || 0,
+        totalServices: services?.length || 0,
+        totalBookings: bookings?.length || 0,
+        totalPayments: payments?.length || 0,
+        totalRevenue: payments?.reduce((sum, payment) => sum + (payment.final_amount_invoiced || 0), 0) || 0,
+        completedBookings: bookings?.filter(booking => booking.status === 'completed')?.length || 0,
+        pendingBookings: bookings?.filter(booking => booking.status === 'pending')?.length || 0,
+        recentUsers: users?.slice(-5)?.reverse() || [],
+        recentBookings: bookings?.slice(-5)?.reverse() || [],
+    };
+    
     if (!hasMounted) return (<SimpleLoading />)
 
-  if (userloading || !hasMounted) {
-    return <SimpleLoading />;
-  }
-  if (!userloading && user.role !== "Admin") {
-    router.push('/auth/signin');
-    return <SimpleRedirect />
-  } else {
+    if (loading) {
+        return <SimpleLoading />;
+    }
+    
+    if (!user) {
+        router.push('/auth/signin');
+        return <SimpleRedirect />
+    }
+    
+    if (user.role !== "Admin") {
+        router.push('/');
+        return <SimpleRedirect />
+    } 
+    
+    if (dataLoading) {
+        return (
+            <div className='min-h-screen bg-gray-50 flex items-center justify-center'>
+                <div className='text-center'>
+                    <SimpleLoading />
+                    <p className='mt-4 text-gray-600'>Loading admin dashboard...</p>
+                </div>
+            </div>
+        );
+    } else {
     return (
-        <div className='w-full h-full flex flex-col justify-center items-center text-sm py-8'>
-            <h1 className='head-text'>Admin Dashboard</h1>
-            <div className='max-w-[1520px] w-full  px-4 flex flex-col'>
-                <Widgets users={users} services={services} payments={payments} bookings={bookings}/>
-                <hr />
-                <WebsiteControls services={services} blogs={blogs} setRefresh={setRefresh}/>
-                <hr />
-                <Sessions bookings={bookings}/>
-                <hr />
-                <UserList users={users}/>
-                <hr />
-                <PaymentsList payments={payments}/>
+        <div className='min-h-screen bg-gray-50'>
+            {/* Header */}
+            <div className='bg-white shadow-sm border-b'>
+                <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+                    <div className='flex justify-between items-center py-6 text-sm'>
+                        <div>
+                            <h1 className='text-md font-bold text-gray-900 flex items-center gap-3'>
+                                <CrownOutlined className='text-yellow-500' />
+                                Admin Dashboard
+                            </h1>
+                            <p className='text-gray-600 mt-1'>Welcome back, {user?.first_name}</p>
+                        </div>
+                        <div className='flex items-center space-x-4'>
+                            <div className='bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm'>
+                                Admin Access
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Content */}
+            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+                {/* Top Stats Cards */}
+                <TopStatsGrid dashboardStats={dashboardStats} />
+
+                {/* Secondary Stats */}
+                <SecondaryStatsGrid 
+                    dashboardStats={dashboardStats} 
+                    totalBlogs={blogs?.length || 0} 
+                />
+
+                {/* Activity Overview */}
+                <ActivityOverviewGrid dashboardStats={dashboardStats} />
+
+                {/* Management Sections */}
+                <div className='space-y-6'>
+                    {/* Website Controls */}
+                    <Card title="Website Management" extra={<ShoppingOutlined />}>
+                        <WebsiteControls services={services} blogs={blogs} setRefresh={setRefresh}/>
+                    </Card>
+
+                    {/* Booking Management */}
+                    <Card title="Booking Management" extra={<CalendarOutlined />}>
+                        <Sessions bookings={bookings}/>
+                    </Card>
+
+                    {/* Users Management */}
+                    <Card title="Users Management" extra={<UserOutlined />}>
+                        <UserList users={users}/>
+                    </Card>
+
+                    {/* Payments Management */}
+                    <Card title="Payments Management" extra={<DollarOutlined />}>
+                        <PaymentsList payments={payments}/>
+                    </Card>
+                </div>
             </div>
         </div>
     )

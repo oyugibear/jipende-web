@@ -1,7 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../config/api.config";
 import Cookies from "js-cookie";
-import { useUser } from "../context";
 import { message } from "antd";
 
 export const loginUser = async (credentials) => {

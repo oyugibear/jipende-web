@@ -11,7 +11,7 @@ import { BiChevronDown } from 'react-icons/bi'
 
 import { Dropdown, Space } from 'antd';
 import { useRouter } from 'next/navigation'
-import { useLogout, useUser } from '@/context'
+import { useAuth } from '@/context/AuthContext'
 import { useSelector } from 'react-redux'
 import SimpleLoading from '../Constants/Loading/SimpleLoading'
 
@@ -19,16 +19,14 @@ import SimpleLoading from '../Constants/Loading/SimpleLoading'
 export default function Navbar() {
 
     const quantity = useSelector((state) => state?.cart?.quantity)
+    const { user, isAuthenticated, logout } = useAuth()
 
     const [hasMounted, setHasMounted] = useState(false)
-    const logout = useLogout()
     const router = useRouter()
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
       setOpen(true);
     };
-
-    const { user, userloading } = useUser()
   
     const onClose = () => {
       setOpen(false);
@@ -36,7 +34,7 @@ export default function Navbar() {
 
     const handleLogout = () => {
         logout()
-        router.push("/auth/signin")
+        router.push("/auth/login")
     } 
 
     const items = [
@@ -44,9 +42,7 @@ export default function Navbar() {
           key: '1',
           label: (
             <Link href='/account'>
-                <p className=''>
                 Account
-                </p>
             </Link>
           ),
         },
@@ -66,9 +62,7 @@ export default function Navbar() {
         key: '1',
         label: (
         <Link href='/account'>
-            <p className=''>
             Account
-            </p>
         </Link>
         ),
     },
@@ -76,9 +70,7 @@ export default function Navbar() {
         key: '2',
         label: (
         <Link href='/admin'>
-            <p className=''>
             Admin
-            </p>
         </Link>
         ),
     },
@@ -96,7 +88,7 @@ export default function Navbar() {
 
   return (
     <div className='w-full h-full flex items-center justify-center z-10 sticky'>
-        <div className='w-full max-w-[1440px] hidden md:flex flex-row items-center justify-between py-4 my-4 mx-4 md:mx-6 '>
+        <div className='w-full max-w-[1440px] hidden md:flex flex-row items-center justify-between py-4  mx-4 md:mx-6 '>
             <Link href='/'>
                 <Image src='/assets/logo1.png' alt='logo' width={100} height={100} className=''/>
             </Link>
@@ -107,7 +99,7 @@ export default function Navbar() {
                         <p className='pl-2'>Services</p>
                     </button>
                 </Link>
-                { user ? (
+                { isAuthenticated ? (
                     <Link href='/sessions'>
                         <button className='flex flex-row items-center'>
                             <PiPersonSimple size={25} />
@@ -131,8 +123,8 @@ export default function Navbar() {
                     </Link>
                 </Badge>
             </div>
-            { !user ? (
-                <Link href='/auth/signin'>
+            { !isAuthenticated ? (
+                <Link href='/auth/login'>
                     <button>Sign In / Sign Up</button>
                 </Link>
             ) : (
@@ -140,10 +132,10 @@ export default function Navbar() {
                     <Dropdown menu={{ items: adminItems }}  placement="bottomRight">
                         <a onClick={(e) => e.preventDefault()}>
                         <Space>
-                            <p className='flex flex-row items-center gap-2'>
-                                <p>{user.first_name}</p>
+                            <div className='flex flex-row items-center gap-2'>
+                                <span>{user?.first_name || 'Admin'}</span>
                                 <BiChevronDown size={20}/>
-                            </p>
+                            </div>
                         </Space>
                         </a>
                     </Dropdown>
@@ -151,10 +143,10 @@ export default function Navbar() {
                     <Dropdown menu={{ items }}  placement="bottomRight">
                         <a onClick={(e) => e.preventDefault()}>
                         <Space>
-                            <p className='flex flex-row items-center gap-2'>
-                                <p>{user.first_name}</p>
+                            <div className='flex flex-row items-center gap-2'>
+                                <span>{user?.first_name || 'User'}</span>
                                 <BiChevronDown size={20}/>
-                            </p>
+                            </div>
                         </Space>
                         </a>
                     </Dropdown>

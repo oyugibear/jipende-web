@@ -1,16 +1,17 @@
 "use client"
 
 import { message } from 'antd';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { API_URL } from '@/config/api.config'
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import countriesData from '@/data/countries.json';
+import Link from 'next/link';
 
-export default function page() {
-
+export default function RegisterPage() {
   const [hasMounted, setHasMounted] = useState(false)
+  const { register } = useAuth();
   const router = useRouter()
+  const [loading, setLoading] = useState(false);
 
   const countries = countriesData.countries;
 

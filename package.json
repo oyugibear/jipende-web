@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "antd": "^5.23.4",
     "axios": "^1.6.2",
     "dayjs": "^1.11.13",

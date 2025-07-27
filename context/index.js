@@ -1,5 +1,15 @@
+/*
+ * DEPRECATED: This context has been replaced by AuthContext.js
+ * All components should now use useAuth() from '@/context/AuthContext'
+ * This file is kept for reference but should not be used.
+ */
+
 "use client"
 
+// This old context system has been replaced by AuthContext
+// All components should now use the new useAuth hook
+
+/*
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Create a context for user details
@@ -60,3 +70,4 @@ export const useLogout = () => {
 
   return logout;
 };
+*/

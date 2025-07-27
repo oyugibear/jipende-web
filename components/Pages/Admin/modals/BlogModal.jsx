@@ -8,8 +8,10 @@ import React, { useState } from 'react'
 import BasicSelectArea from '@/components/Constants/fields/BasicSelectArea';
 import axios from 'axios';
 import { API_URL } from '@/config/api.config';
+import { useAuth } from '@/context/AuthContext';
 
 export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}) {
+    const { token } = useAuth();
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -21,6 +23,7 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
     const [publisherLink, setPublisherLink] = useState('');
     const [category, setCategory] = useState('');
     const [status, setStatus] = useState('not published');
+    const [aboutAuthor, setAboutAuthor] = useState('');
     const [loading, setLoading] = useState(false);
 
   
@@ -69,11 +72,13 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
         formData.append('publisher_link', publisherLink);
         formData.append('category', category);
         formData.append('status', status);
+        formData.append('about_author', aboutAuthor);
 
-        const { data } = await axios.post(`${API_URL}/blog/add`, formData, {
-          headers: {
+        const { data } = await axios.put(`${API_URL}/blogs/add`, formData, {
+            headers: {
               'Content-Type': 'multipart/form-data',
-          },
+              ...(token && { Authorization: `Bearer ${token}` }),
+            },
         });
 
         if (data) {
@@ -116,6 +121,9 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
             if (publisherLink !== details?.publisher_link && publisherLink !== '') {
               updatedData.append('publisher_link', publisherLink);
             }
+            if (aboutAuthor !== details?.about_author && aboutAuthor !== '') {
+              updatedData.append('about_author', aboutAuthor);
+            }
             if (category !== details?.category && category !== '') {
               updatedData.append('category', category);
             }
@@ -129,7 +137,12 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
                 return;
             }
         
-            const { data } = await axios.put(`${API_URL}/blog/${details?._id}`, updatedData);
+            const { data } = await axios.put(`${API_URL}/blogs/${details?._id}`, updatedData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    ...(token && { Authorization: `Bearer ${token}` }),
+                },
+            });
             if (data) {
                 message.success('blog updated successfully');
                 setRefresh(true);
@@ -165,47 +178,49 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
 
     if (type == 'add') {
         return (
-            <Modal title="Add new Blog" onOk={handleAdd} open={isOpen} onCancel={handleCancel} footer={<Button key="submit" color="blue" variant="solid" loading={loading} onClick={handleAdd}> Submit</Button>}>
-                <div className='flex flex-col gap-4 overflow-x-hidden'>
-                    <BasicInputs label='Title' value={title} setValue={setTitle} />
-                    <BasicInputs label='Reading Time' value={readingTime} setValue={setReadingTime} />
-                    <BasicInputs label='Author' value={author} setValue={setAuthor} />
-                    <BasicInputs label='Publisher' value={publisher} setValue={setPublisher} />
-                    <BasicInputs label='Publisher Link' value={publisherLink} setValue={setPublisherLink} />
-                    <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
-                    <BasicSelectArea label='Status' value={status} setValue={setStatus} options={statuses}/>
-                    <BasicTextArea label='Description' value={description} setValue={setDescription} />
-                    <BasicTextArea label='Blog Text' value={blogText} setValue={setBlogText} />
-                    <Upload {...props}>
-                        <div className='flex flex-col gap-2'>
-                            <label className='text-xs text-slate-800'>Upload Image</label>
-                            <Button icon={<UploadOutlined />}>Upload</Button>
-                        </div>
-                    </Upload>
-
+          <Modal title="Add new Blog" onOk={handleAdd} open={isOpen} onCancel={handleCancel} footer={<Button key="submit" color="blue" variant="solid" loading={loading} onClick={handleAdd}> Submit</Button>}>
+            <div className='flex flex-col gap-4 overflow-x-hidden'>
+              <BasicInputs label='Title' value={title} setValue={setTitle} />
+              <BasicInputs label='Reading Time' value={readingTime} setValue={setReadingTime} />
+              <BasicInputs label='Author' value={author} setValue={setAuthor} />
+              <BasicInputs label='About Author' value={aboutAuthor} setValue={setAboutAuthor} />
+              <BasicInputs label='Publisher' value={publisher} setValue={setPublisher} />
+              <BasicInputs label='Publisher Link' value={publisherLink} setValue={setPublisherLink} />
+              <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
+              <BasicSelectArea label='Status' value={status} setValue={setStatus} options={statuses}/>
+              <BasicTextArea label='Description' value={description} setValue={setDescription} />
+              <BasicTextArea label='Blog Text' value={blogText} setValue={setBlogText} />
+              <Upload {...props}>
+                <div className='flex flex-col gap-2'>
+                    <label className='text-xs text-slate-800'>Upload Image</label>
+                    <Button icon={<UploadOutlined />}>Upload</Button>
                 </div>
-            </Modal>
+              </Upload>
+
+            </div>
+          </Modal>
         )
     }
     return (
-            <Modal title="Edit Blog" onOk={handleUpdate} open={isOpen} onCancel={handleCancel} footer={<Button key="submit" color="blue" variant="solid" loading={loading} onClick={handleUpdate}> Submit</Button>}>
-                <div className='flex flex-col gap-4 overflow-x-hidden'>
-                    <BasicInputs label='Title' value={title} setValue={setTitle} />
-                    <BasicInputs label='Reading Time' value={readingTime} setValue={setReadingTime} />
-                    <BasicInputs label='Author' value={author} setValue={setAuthor} />
-                    <BasicInputs label='Publisher' value={publisher} setValue={setPublisher} />
-                    <BasicInputs label='Publisher Link' value={publisherLink} setValue={setPublisherLink} />
-                    <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
-                    <BasicSelectArea label='Status' value={status} setValue={setStatus} options={statuses}/>
-                    <BasicTextArea label='Description' value={description} setValue={setDescription} />
-                    <Upload {...props}>
-                        <div className='flex flex-col gap-2'>
-                            <label className='text-xs text-slate-800'>Upload Image</label>
-                            <Button icon={<UploadOutlined />}>Upload</Button>
-                        </div>
-                    </Upload>
+      <Modal title="Edit Blog" onOk={handleUpdate} open={isOpen} onCancel={handleCancel} footer={<Button key="submit" color="blue" variant="solid" loading={loading} onClick={handleUpdate}> Submit</Button>}>
+          <div className='flex flex-col gap-4 overflow-x-hidden'>
+              <BasicInputs label='Title' value={title} setValue={setTitle} />
+              <BasicInputs label='Reading Time' value={readingTime} setValue={setReadingTime} />
+              <BasicInputs label='Author' value={author} setValue={setAuthor} />
+              <BasicInputs label='About Author' value={aboutAuthor} setValue={setAboutAuthor} />
+              <BasicInputs label='Publisher' value={publisher} setValue={setPublisher} />
+              <BasicInputs label='Publisher Link' value={publisherLink} setValue={setPublisherLink} />
+              <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
+              <BasicSelectArea label='Status' value={status} setValue={setStatus} options={statuses}/>
+              <BasicTextArea label='Description' value={description} setValue={setDescription} />
+              <Upload {...props}>
+                  <div className='flex flex-col gap-2'>
+                      <label className='text-xs text-slate-800'>Upload Image</label>
+                      <Button icon={<UploadOutlined />}>Upload</Button>
+                  </div>
+              </Upload>
 
-                </div>
-            </Modal>
+          </div>
+      </Modal>
     )
 }
