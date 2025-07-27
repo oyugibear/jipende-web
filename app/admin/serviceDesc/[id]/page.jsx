@@ -113,8 +113,8 @@ export default function page({}) {
     return (
         <div className='flex flex-col w-full items-center justify-center py-12 p-4'>
             <div className='max-w-[1440px] w-full flex flex-col'>
-                <h1 className='text-xl font-medium'>Service Information</h1>
-                <p>Below are are all the details concerning this service</p>
+                <h1 className='text-xl font-medium'>Service Description Information</h1>
+                <p>Below are are all the details concerning this service description</p>
                 <div className='my-6 w-full'>
                     {/* <Image src={service?.picture} alt='service image' width={216} height={145} className='w-full md:max-w-[180px]'/> */}
                     <div className='w-full flex flex-row items-end justify-between my-4'>

@@ -7,11 +7,12 @@ import { FiShoppingCart } from 'react-icons/fi'
 import ReviewList from '@/components/Pages/Review/ReviewList'
 import Card from '@/components/Pages/Services/ServiceCard/Card'
 import RelatedServices from '@/components/Pages/RelatedServices/RelatedServices'
+import BookingModal from '@/components/Pages/Services/BookingModal'
 import { useAuth } from '@/context/AuthContext'
 import { serviceAPI, bookingAPI } from '@/utils/api'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '@/app/GlobalRedux/Features/cart/CartSlice'
-import { Modal, message, Image, DatePicker, TimePicker } from 'antd'
+import { message, Image } from 'antd'
 import { useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
 
@@ -20,8 +21,6 @@ export default function ServicePage({
     params
 }) {
     const { user, isAuthenticated } = useAuth();
-    const [date, setDate] = useState('')
-    const [time, setTime] = useState('')
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -49,15 +48,10 @@ export default function ServicePage({
     const [quantity, setQuantity] = useState(1)
     const router = useRouter()
 
-    const handleClick = async () => {
+    const handleBookingConfirm = async ({ date, time }) => {
         if (!isAuthenticated) {
             message.warning('Please login to book a service');
             router.push('/auth/login');
-            return;
-        }
-
-        if (!date || !time) {
-            message.error('Please select both date and time');
             return;
         }
 
@@ -82,10 +76,6 @@ export default function ServicePage({
             message.success('Service added to cart successfully!');
             setIsModalOpen(false);
             
-            // Reset form
-            setDate('');
-            setTime('');
-            
             // Redirect to cart page for verification
             router.push('/cart');
             
@@ -104,36 +94,10 @@ export default function ServicePage({
         setIsModalOpen(true);
     };
     
-    const handleOk = () => {
-        handleClick();
-    };
-    
-    const handleCancel = () => {
+    const handleModalCancel = () => {
         setIsModalOpen(false);
-        setDate('');
-        setTime('');
     };
 
-
-    const range = (start, end) => {
-        const result = [];
-        for (let i = start; i < end; i++) {
-          result.push(i);
-        }
-        return result;
-    };
-
-    const disabledDate = (current) => {
-        // Disable days before today and weekends (Saturday and Sunday)
-        return (
-            current &&
-            (current < dayjs().endOf('day') || current.day() === 0 || current.day() === 6)
-        );
-    };
-    const disabledDateTime = () => ({
-        disabledHours: () => range(0, 8).concat(range(19, 24)), // Disable hours outside 8 AM to 7 PM
-        disabledMinutes: () => range(0, 60).filter(min => min !== 0 && min !== 30), // Allow only 00 and 30 minutes
-    });
 
     if (loading) {
         return (
@@ -203,46 +167,12 @@ export default function ServicePage({
             {/* <ReviewList /> */}
             {/* <RelatedServices /> */}
 
-            <Modal open={isModalOpen} onCancel={handleCancel} footer={[<button onClick={handleClick}  className={`bg-yellow-500 text-white font-bold rounded-lg py-2 px-4 ${(!date || !time) && 'bg-gray-400 cursor-not-allowed'}`} disabled={!date || !time}> Add to Cart </button>]} >
-                <div className='flex flex-col items-center my-4 py-8'>
-                    <p className='text-lg font-bold '>Select Session Date & Time</p>
-                    <p className='text-sm text-center'>Please select the date and time you would like to attend this session. You can review your selection in the cart.</p>
-                    
-                    
-                    <div className='flex flex-col md:flex-row items-center gap-4 my-4'>
-                   
-                    
-                        <div className='flex flex-col items-start w-full'>
-                            <label className='text-sm'>Date</label>
-                            <DatePicker
-                                format="YYYY-MM-DD"
-                                disabledDate={disabledDate}
-                                onChange={(value, dateString) => {
-                                    console.log('Formatted Selected Time: ', dateString);
-                                    setDate(dateString)
-                                }}
-                            
-                            />
-                        </div>
-                        <div className='flex flex-col items-start w-full'>
-                            <label className='text-sm'>Time</label>
-                            <TimePicker
-                                format="HH:mm"
-                                defaultValue={dayjs('08:30', 'HH:mm')} // Set a default value in the correct format
-                                disabledTime={disabledDateTime}
-                                onChange={(value) => {
-                                    if (value) {
-                                        const formattedTime = value.format('HH:mm'); // Format the selected time
-                                        console.log('Selected Time: ', formattedTime);
-                                        setTime(formattedTime); // Set the formatted time
-                                    }
-                                }}
-                                renderExtraFooter={() => null} // Disables the footer by rendering nothing
-                            />
-                        </div>
-                    </div>
-                </div>
-            </Modal>
+            <BookingModal 
+                isOpen={isModalOpen}
+                onCancel={handleModalCancel}
+                onConfirm={handleBookingConfirm}
+                serviceData={data}
+            />
         </div>
     </div>
   )

@@ -15,7 +15,7 @@ export default function Blog({blogs}) {
                the conversation through learning
             </p>
 
-            <div className='w-full flex flex-wrap items-center justify-evenly gap-4'>
+            <div className='w-full flex flex-wrap items-start justify-evenly gap-4'>
               {blogs?.map((blog) => (
                 <BlogCard key={blog._id} data={blog}/>
               ))}

@@ -1,19 +1,56 @@
+"use client"
+
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 export default function AboutUs() {
+  const [isVisible, setIsVisible] = useState(false)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.1 }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current)
+      }
+    }
+  }, [])
+
   return (
-    <div className="relative w-full overflow-hidden">
+    <div ref={containerRef} className="relative w-full min-h-[600px] overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0 -z-10 h-[600px] bg-fixed bg-center bg-cover bg-no-repeat" style={{ backgroundImage: "url('/assets/homepage/about/aboutUs.png')" }} />
+      <div className="absolute inset-0 -z-10 w-full h-full">
+        <Image
+          src="/assets/homepage/about/aboutUs.png"
+          alt="About Us Background"
+          fill
+          className={`object-cover object-center transition-all duration-1000 ease-out ${
+            isVisible ? 'scale-100 opacity-100' : 'scale-110 opacity-90'
+          }`}
+          priority
+        />
+      </div>
 
       {/* Content over Image */}
-      <div className="relative max-w-[1040px] mx-auto px-4 py-24">
-        <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-xl p-8">
-          <h2 className="text-3xl mb-2">
-            Our <span className="text-yellow-500">Story</span>
-          </h2>
+      <div className="relative w-full h-full flex items-center justify-center px-4 py-16 md:py-24">
+        <div className="w-full max-w-[1040px] mx-auto">
+          <div className={`bg-white/90 backdrop-blur-md rounded-xl shadow-xl p-6 md:p-8 mx-4 md:mx-0 transition-all duration-1000 ease-out ${
+            isVisible ? 'transform translate-y-0 opacity-100' : 'transform translate-y-4 opacity-80'
+          }`}>
+            <h2 className="text-2xl md:text-3xl mb-2">
+              Our <span className="text-yellow-500">Story</span>
+            </h2>
           <p className="my-4 text-justify">
             <b>What exactly do we do?</b>
             <br />
@@ -32,6 +69,7 @@ export default function AboutUs() {
               Read More
             </button>
           </Link>
+          </div>
         </div>
       </div>
     </div>

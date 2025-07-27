@@ -8,8 +8,11 @@ import React, { useState } from 'react'
 import BasicSelectArea from '@/components/Constants/fields/BasicSelectArea';
 import axios from 'axios';
 import { API_URL } from '@/config/api.config';
+import { useAuth } from '@/context/AuthContext';
 
 export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, serviceDetails}) {
+
+    const { token } = useAuth();
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -128,12 +131,19 @@ export default function ServiceModal({isOpen, setIsOpen, setRefresh, type, servi
                 return;
             }
         
-            const { data } = await axios.put(`${API_URL}/service/${serviceDetails?._id}`, updatedData);
+              const { data } = await axios.put(`${API_URL}/services/${serviceDetails?._id}`, updatedData, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                ...(token && { Authorization: `Bearer ${token}` }),
+              },
+            });
             if (data) {
                 message.success('Service updated successfully');
                 setRefresh(true);
                 setIsOpen(false);
             }
+
+          
         } catch (error) {
           message.error('An error occurred, unable to update service');
           console.log(error);

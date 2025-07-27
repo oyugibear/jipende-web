@@ -47,7 +47,7 @@ export default function BlogList({blogs, setRefresh}) {
         }
     ]
 
-    const fixedData = blogs?.data?.map((item) => {
+    const fixedData = blogs?.map((item) => {
         return {
             title: item?.title,
             author: item?.author,

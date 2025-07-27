@@ -64,7 +64,7 @@ export default function ServicesList({services, setRefresh}) {
         }
     ]
 
-    const fixedData = services?.data?.map((item) => {
+    const fixedData = services?.map((item) => {
         return {
             title: item?.title,
             description: item?.description,
