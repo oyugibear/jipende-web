@@ -12,7 +12,10 @@ import { PiLock, PiCreditCard, PiUser } from 'react-icons/pi'
 
 export default function Checkout({cart}) {
     const [processing, setProcessing] = useState(false)
-    let tax = (cart?.totalAmount || 0) * 0.16
+
+    // Vat is not currently applied
+    // let tax = (cart?.totalAmount || 0) * 0.16
+    let tax = 0
     const { user, isAuthenticated } = useAuth()
 
     const router = useRouter()
@@ -95,12 +98,12 @@ export default function Checkout({cart}) {
                     </span>
                 </div>
                 
-                <div className='flex justify-between items-center'>
+                {/* <div className='flex justify-between items-center'>
                     <span className='text-gray-600'>VAT (16%):</span>
                     <span className='font-semibold text-gray-900'>
                         KSH {tax.toLocaleString()}
                     </span>
-                </div>
+                </div> */}
                 
                 <hr className='border-gray-200' />
                 

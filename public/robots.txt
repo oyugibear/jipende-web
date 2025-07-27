@@ -1,0 +1,65 @@
+# robots.txt for Africa Jipende Wellness
+# High SEO optimization for mental health services
+
+User-agent: *
+Allow: /
+
+# Allow all important pages
+Allow: /services
+Allow: /about
+Allow: /contacts
+Allow: /Blogs
+Allow: /auth/login
+Allow: /auth/register
+
+# Disallow admin and private areas
+Disallow: /admin
+Disallow: /api/
+Disallow: /admin-test
+Disallow: /auth-debug
+Disallow: /test-login
+Disallow: /_next/
+Disallow: /private/
+
+# Allow search engines to crawl images and assets
+Allow: /assets/
+Allow: /public/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.webp
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://africajipendewellness.com/sitemap.xml
+
+# Special rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Block known bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

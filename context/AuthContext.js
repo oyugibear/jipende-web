@@ -43,7 +43,8 @@ export const AuthProvider = ({ children }) => {
 
             const data = await response.json();
 
-            if (data.status) {
+            // Check both HTTP status and response data status
+            if (response.ok && data.status) {
                 setToken(data.token);
                 setUser(data.user);
                 if (typeof window !== 'undefined') {
@@ -52,16 +53,22 @@ export const AuthProvider = ({ children }) => {
                 }
                 return { success: true, data };
             } else {
-                return { success: false, message: data.message };
+                // Handle both HTTP errors and API-level errors
+                const errorMessage = data.message || data.error || `HTTP Error: ${response.status} ${response.statusText}`;
+                console.error('Login failed:', errorMessage);
+                return { success: false, message: errorMessage };
             }
         } catch (error) {
-            return { success: false, message: 'Login failed' };
+            console.error('Login error:', error);
+            return { success: false, message: 'Login failed. Please check your connection and try again.' };
         }
     };
 
     const register = async (userData) => {
         try {
-            const response = await fetch(`${API_URL}/auth/signup`, {
+            console.log('Sending registration data:', userData);
+            
+            const response = await fetch(`${API_URL}/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,9 +76,12 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(userData),
             });
 
+            console.log('Registration response status:', response.status);
             const data = await response.json();
+            console.log('Registration response data:', data);
 
-            if (data.status) {
+            // Check both HTTP status and response data status
+            if (response.ok && data.status) {
                 setToken(data.token);
                 setUser(data.user);
                 if (typeof window !== 'undefined') {
@@ -80,10 +90,14 @@ export const AuthProvider = ({ children }) => {
                 }
                 return { success: true, data };
             } else {
-                return { success: false, message: data.message };
+                // Handle both HTTP errors and API-level errors
+                const errorMessage = data.message || data.error || `HTTP Error: ${response.status} ${response.statusText}`;
+                console.error('Registration failed:', errorMessage);
+                return { success: false, message: errorMessage };
             }
         } catch (error) {
-            return { success: false, message: 'Registration failed' };
+            console.error('Registration error:', error);
+            return { success: false, message: 'Registration failed. Please check your connection and try again.' };
         }
     };
 

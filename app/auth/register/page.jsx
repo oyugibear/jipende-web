@@ -1,155 +1,169 @@
 "use client"
 
-import { message } from 'antd';
+import { Form, Button, message, Card, Typography, Divider } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import countriesData from '@/data/countries.json';
 import Link from 'next/link';
+import { AdvInputs } from '@/components/Constants/AdvInputs';
+
+const { Title, Text } = Typography;
 
 export default function RegisterPage() {
   const [hasMounted, setHasMounted] = useState(false)
   const { register } = useAuth();
   const router = useRouter()
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
   const countries = countriesData.countries;
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [dob, setDob] = useState('');
-  const [nationality, setNationality] = useState('');
-  const [residence, setResidence] = useState('Kenya');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   useEffect(() => {
     setHasMounted(true)
   }, [])
 
-
   if (!hasMounted) return null
 
-  const checkInputs = () => {
-    if(!firstName){
-      return false
-    } else if(!lastName){
-      return false
-    }else if(!email){
-      return false
-    } else if(!phoneNumber){
-      return false
-    } else if(!dob){
-      return false
-    } else if(!password){
-      return false
-    } else if(!nationality){
-      return false
-    } else if(!residence){
-      return false
-    } 
-    return true
-  }
-
-  const checkFields = checkInputs()
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    let details = {
-      first_name: firstName,
-      second_name: lastName,
-      email: email,
-      phone_number: phoneNumber,
-      country_of_residence: residence,
-      nationality: nationality,
-      date_of_birth: dob,
-      password: password,
-      role: "Client"
-
-    }
-    // console.log(details)
-
+  const handleSubmit = async (values) => {
+    setLoading(true);
     
     try {
-      const {data} = await axios.post(`${API_URL}/auth/register`, {
-        first_name: firstName,
-        second_name: lastName,
-        email: email,
-        phone_number: phoneNumber,
-        country_of_residence: residence,
-        nationality: nationality,
-        date_of_birth: dob,
-        password: password,
-        role: "Client"
-      }) 
+      // Combine country code and phone number
+      const fullPhoneNumber = `${values.countryCode}${values.phoneNumberOnly.replace(/\s/g, '')}`;
       
-      if(data){
-        message.success("Your Account has Been Created")
-        console.log(data)
-        router.push("/")
+      const registrationData = {
+        first_name: values.firstName,
+        second_name: values.lastName,
+        email: values.email,
+        phone_number: fullPhoneNumber,
+        country_of_residence: values.residence,
+        nationality: values.nationality,
+        date_of_birth: values.dob.format('YYYY-MM-DD'),
+        password: values.password,
+        role: "Client"
+      };
+
+      const result = await register(registrationData);
+      
+      if (result.success) {
+        message.success("Your Account has Been Created Successfully!");
+        router.push("/auth/login");
+      } else {
+        message.error(result.message || "Registration failed. Please try again.");
       }
+      
     } catch (error) {
-      console.log(error)
-      message.error("There was an issue with registration")
+      console.error("Registration error:", error);
+      message.error("Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
   return (
-    <div className='w-full flex flex-col py-12  px-4 items-center justify-center'>
-      <div className='flex flex-col items-center justify-center w-full max-w-[470px]'>
-        <h1 className='text-md:3xl text-xl font-semibold'>Register</h1>
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center py-12 px-4">
+      <Card 
+        className="w-full max-w-lg shadow-xl border-0"
+        bodyStyle={{ padding: '2rem' }}
+      >
+        <div className="text-center mb-8">
+          <Title level={2} className="!mb-2 !text-gray-800">
+            Create Your Account
+          </Title>
+          <Text className="text-gray-600">
+            Join Jipende Wellness for your mental health journey
+          </Text>
+        </div>
 
-        <form onSubmit={(e) => handleSubmit(e)} className='my-8 w-full'>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>First Name</label>
-            <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" className='p-2 border w-full rounded-sm mt-1'/>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Last Name</label>
-            <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" className='p-2 border w-full rounded-sm mt-1'/>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Phone Number</label>
-            {/* <PhoneInput placeholder="Phone Number" value={value} onChange={setValue} country="US"/> */}
-            <input value={phoneNumber} placeholder='+254 70000000' onChange={(e) => setPhoneNumber(e.target.value)} type="text" className='p-2 border w-full rounded-sm mt-1'/>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className='p-2 border w-full rounded-sm mt-1'/>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Date Of Birth</label>
-            <input value={dob} onChange={(e) => setDob(e.target.value)} type="date" className='p-2 border w-full rounded-sm mt-1'/>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Nationality</label>
-            <input value={nationality} onChange={(e) => setNationality(e.target.value)} type="text" className='p-2 border w-full rounded-sm mt-1'/>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Country of Residence</label>
-            <select value={residence} onChange={(e) => setResidence(e.target.value)} className='p-2 border w-full rounded-sm mt-1'>
-              {countries?.map((country) => (
-                <option key={country.name.official} value={country.name.common} className='text-sm'>{country.name.common}</option>
-              ))}
-            </select>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Password</label>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className='p-2 border w-full rounded-sm mt-1'/>
-          </div>
-          <div className='flex flex-col w-full items-start mt-4'>
-            <label className='text-xs text-slate-800 font-thin'>Confirm Password</label>
-            <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" className='p-2 border w-full rounded-sm mt-1'/>
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          requiredMark={false}
+          autoComplete="off"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <AdvInputs.TextInput
+              name="firstName"
+              label="First Name"
+              placeholder="Enter your first name"
+              rules={[
+                { required: true, message: 'First name is required' },
+                { min: 2, message: 'First name must be at least 2 characters' }
+              ]}
+            />
+
+            <AdvInputs.TextInput
+              name="lastName"
+              label="Last Name"
+              placeholder="Enter your last name"
+              rules={[
+                { required: true, message: 'Last name is required' },
+                { min: 2, message: 'Last name must be at least 2 characters' }
+              ]}
+            />
           </div>
 
-          <button type='submit' disabled={checkFields == false} className={`w-full bg-[#FFD02A] text-sm font-medium text-black uppercase flex cursor-pointer justify-center p-4 mt-8 ${checkFields == false && 'bg-gray-200 cursor-default'}`}>
-            Register
-          </button>
-        </form>
+          <AdvInputs.EmailInput />
 
-      </div>
+          <AdvInputs.PhoneInput />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <AdvInputs.DateInput />
+
+            <AdvInputs.NationalityInput />
+          </div>
+
+          <AdvInputs.CountrySelect
+            countries={countries}
+          />
+
+          <Divider className="!my-6" />
+
+          <AdvInputs.PasswordRequirements />
+
+          <AdvInputs.PasswordInput />
+
+          <AdvInputs.ConfirmPasswordInput />
+
+          <Form.Item className="mb-4">
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              size="large"
+              loading={loading}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 border-yellow-500 hover:border-yellow-600 h-12 text-base font-medium"
+            >
+              {loading ? 'Creating Account...' : 'Create Account'}
+            </Button>
+          </Form.Item>
+
+          <div className="text-center">
+            <Text className="text-gray-600">
+              Already have an account?{' '}
+              <Link href="/auth/login" className="text-yellow-600 hover:text-yellow-700 font-medium">
+                Sign in here
+              </Link>
+            </Text>
+          </div>
+        </Form>
+
+        <Divider className="!my-6" />
+
+        <div className="text-center">
+          <Text className="text-xs text-gray-500">
+            By creating an account, you agree to our{' '}
+            <Link href="/terms" className="text-yellow-600 hover:text-yellow-700">
+              Terms of Service
+            </Link>{' '}
+            and{' '}
+            <Link href="/privacy" className="text-yellow-600 hover:text-yellow-700">
+              Privacy Policy
+            </Link>
+          </Text>
+        </div>
+      </Card>
     </div>
-  )
+  );
 }
