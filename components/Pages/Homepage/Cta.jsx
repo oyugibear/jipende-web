@@ -38,17 +38,17 @@ export default function Cta() {
           <div className='text-center lg:text-left space-y-6'>
             <div className='flex items-center justify-center lg:justify-start gap-2 mb-4'>
               <div className='p-2 bg-white/20 rounded-full backdrop-blur-sm'>
-                <PiHeart size={24} className='text-slate-800' />
+                <PiHeart size={24} className='text-black' />
               </div>
-              <PiSparkle size={20} className='text-slate-700' />
+              <PiSparkle size={20} className='text-black' />
             </div>
             
-            <h3 className='text-3xl lg:text-4xl font-bold text-slate-800 leading-tight'>
+            <h3 className='text-3xl lg:text-4xl font-bold text-black leading-tight'>
               Transform Your Mental
-              <span className='block text-slate-700'>Wellness Journey</span>
+              <span className='block text-black'>Wellness Journey</span>
             </h3>
             
-            <p className='text-lg text-slate-700 leading-relaxed max-w-lg mx-auto lg:mx-0'>
+            <p className='text-lg text-black leading-relaxed max-w-lg mx-auto lg:mx-0'>
               Join thousands across Africa, Europe, and North America receiving weekly mental health insights, 
               expert tips, and exclusive wellness resources delivered to your inbox.
             </p>
@@ -59,19 +59,19 @@ export default function Cta() {
                 <div className='w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0'>
                   <PiCheck size={12} className='text-white' />
                 </div>
-                <span className='text-slate-700'>Weekly mental health tips & strategies</span>
+                <span className='text-black'>Weekly mental health tips & strategies</span>
               </div>
               <div className='flex items-center gap-3'>
                 <div className='w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0'>
                   <PiCheck size={12} className='text-white' />
                 </div>
-                <span className='text-slate-700'>Early access to new therapy programs</span>
+                <span className='text-black'>Early access to new therapy programs</span>
               </div>
               <div className='flex items-center gap-3'>
                 <div className='w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0'>
                   <PiCheck size={12} className='text-white' />
                 </div>
-                <span className='text-slate-700'>Exclusive wellness resources & guides</span>
+                <span className='text-black'>Exclusive wellness resources & guides</span>
               </div>
             </div>
 
@@ -88,9 +88,9 @@ export default function Cta() {
           <div className='bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20'>
             <div className='text-center mb-6'>
               <div className='inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full mb-4 shadow-lg'>
-                <PiEnvelope size={24} className='text-slate-800' />
+                <PiEnvelope size={24} className='text-black' />
               </div>
-              <h4 className='text-xl font-semibold text-slate-800 mb-2'>
+              <h4 className='text-xl font-semibold text-black mb-2'>
                 Start Your Wellness Journey
               </h4>
               <p className='text-slate-600 text-sm'>
@@ -105,7 +105,7 @@ export default function Cta() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder='Enter your email address'
-                  className='w-full px-6 py-4 text-slate-700 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300 text-base'
+                  className='w-full px-6 py-4 text-black bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300 text-base'
                   required
                 />
                 <div className='absolute right-4 top-1/2 transform -translate-y-1/2'>
@@ -119,7 +119,8 @@ export default function Cta() {
                 className={`w-full py-4 rounded-xl font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
                   isSubscribed 
                     ? 'bg-green-500 text-white' 
-                    : 'bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white'
+                    // : 'bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white'
+                    : 'bg-black text-white hover:bg-black/90'
                 } disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none`}
               >
                 {isLoading ? (
@@ -149,17 +150,17 @@ export default function Cta() {
             {/* Social proof */}
             <div className='flex items-center justify-center gap-4 mt-6 pt-6 border-t border-slate-200'>
               <div className='text-center'>
-                <div className='text-lg font-bold text-slate-800'>4.9★</div>
+                <div className='text-lg font-bold text-black'>4.9★</div>
                 <div className='text-xs text-slate-500'>User Rating</div>
               </div>
               <div className='w-px h-8 bg-slate-200'></div>
               <div className='text-center'>
-                <div className='text-lg font-bold text-slate-800'>1K+</div>
+                <div className='text-lg font-bold text-black'>270</div>
                 <div className='text-xs text-slate-500'>Subscribers</div>
               </div>
               <div className='w-px h-8 bg-slate-200'></div>
               <div className='text-center'>
-                <div className='text-lg font-bold text-slate-800'>95%</div>
+                <div className='text-lg font-bold text-black'>95%</div>
                 <div className='text-xs text-slate-500'>Satisfaction</div>
               </div>
             </div>

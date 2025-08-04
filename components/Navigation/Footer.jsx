@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
-import { PiFacebookLogo, PiInstagramLogo, PiTiktokLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
+import { BsTwitterX } from 'react-icons/bs'
+import { PiFacebookLogo, PiInstagramLogo, PiTiktokLogo, PiTwitterLogo, PiX, PiYoutubeLogo } from 'react-icons/pi'
 
 export default function Footer() {
   return (
@@ -42,7 +43,7 @@ export default function Footer() {
             </Link>
             <Link href='https://x.com/jipendewellness?lang=en' target='_blank'>
               <div className='p-2 border rounded-full'>
-                  <PiTwitterLogo size={25}/>
+                  <BsTwitterX size={25}/>
               </div>
             </Link>
             <Link href='https://www.youtube.com/@africajipendewellness9825' target='_blank'>

@@ -43,10 +43,9 @@ export default function Page() {
     
     const therapyItems = [
         { key: '1', label: 'Individual Awareness', value: 'Individual Awareness' },
-        { key: '2', label: 'Self Development', value: 'Self Development' },
-        { key: '3', label: 'Mental Awareness', value: 'Mental Awareness' },
-        { key: '4', label: 'After Care', value: 'After Care' },
-        { key: '5', label: 'All', value: 'All' },
+        { key: '2', label: 'Group Wellness', value: 'Group Wellness' },
+        { key: '3', label: 'Corporate Wellness', value: 'Corporate Wellness' },
+        { key: '4', label: 'All', value: 'All' },
     ];
 
     const locationItems = [

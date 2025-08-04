@@ -65,7 +65,7 @@ export default function AboutUs() {
             Our vision is to constantly promote wellness by offering a holistic service through merging different social, psychological, physical and nutritional expertise in order to create a healthy community.
           </p>
           <Link href="/about">
-            <button className="mt-4 rounded-lg text-sm uppercase bg-yellow-500 font-extrabold px-4 py-2 hover:scale-105 duration-300">
+            <button className="mt-4 rounded-lg text-sm  bg-yellow-500 font-medium px-4 py-2 hover:scale-105 duration-300">
               Read More
             </button>
           </Link>
