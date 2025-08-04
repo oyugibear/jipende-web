@@ -129,8 +129,8 @@ export default function ServicePage({
                 </div>
 
                 <div className='flex flex-col md:flex-row items-center justify-evenly mt-8 p-4'>
-                    <div className='md:px-4 '>
-                        <Image src={data.picture} alt='product Image' className="w-full lg:max-w-[60vw] h-[40vh] object-cover" />
+                    <div className='md:px-4 rounded-lg'>
+                        <Image src={data.picture} alt='product Image' className="w-full lg:max-w-[60vw] h-[40vh] object-cover rounded-lg" />
                     </div>
 
                     <div className='flex flex-col mx-4 w-full max-w-[700px]'>
