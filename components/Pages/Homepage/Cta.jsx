@@ -156,7 +156,7 @@ export default function Cta() {
               <div className='w-px h-8 bg-slate-200'></div>
               <div className='text-center'>
                 <div className='text-lg font-bold text-black'>270</div>
-                <div className='text-xs text-slate-500'>Subscribers</div>
+                <div className='text-xs text-slate-500'>Members</div>
               </div>
               <div className='w-px h-8 bg-slate-200'></div>
               <div className='text-center'>
