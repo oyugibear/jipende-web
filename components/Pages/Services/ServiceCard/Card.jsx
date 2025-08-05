@@ -26,9 +26,11 @@ export default function Card({service}) {
                 <Image src={imageSrc} alt='Service Card Image' width={442} height={223} className='max-h-[223px] object-cover rounded-lg'/>
             </div>
             <p className='text-lg my-4 font-semibold'>{service?.title}</p>
-            <p className='text-sm'>
-                {(service?.description?.substring(0, 50) + "..." || service?.description_of_service?.substring(0, 10) + "...")}
-            </p>
+
+            {/* <p className='text-sm'>
+                {(service?.description?.substring(0, 100) + "..." || service?.description_of_service?.substring(0, 10) + "...")}
+            </p> */}
+
         </div>
     </Link>
   )

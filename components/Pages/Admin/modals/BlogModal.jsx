@@ -15,6 +15,7 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [shortDescription, setShortDescription] = useState('');
     const [readingTime, setReadingTime] = useState('');
     const [picture, setPicture] = useState(null);
     const [blogText, setBlogText] = useState('');
@@ -103,6 +104,9 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
             if (description !== details?.description && description !== '') {
               updatedData.append('description', description);
             }
+            if (shortDescription !== details?.short_description && shortDescription !== '') {
+              updatedData.append('short_description', shortDescription);
+            }
             if (readingTime !== details?.reading_time && readingTime !== '') {
               updatedData.append('reading_time', readingTime);
             }
@@ -189,6 +193,7 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
               <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
               <BasicSelectArea label='Status' value={status} setValue={setStatus} options={statuses}/>
               <BasicTextArea label='Description' value={description} setValue={setDescription} />
+              <BasicTextArea label='Short Description' value={shortDescription} setValue={setShortDescription} />
               <BasicTextArea label='Blog Text' value={blogText} setValue={setBlogText} />
               <Upload {...props}>
                 <div className='flex flex-col gap-2'>
@@ -213,6 +218,7 @@ export default function BlogModal({isOpen, setIsOpen, setRefresh, type, details}
               <BasicSelectArea label='Category' value={category} setValue={setCategory} options={categories}/>
               <BasicSelectArea label='Status' value={status} setValue={setStatus} options={statuses}/>
               <BasicTextArea label='Description' value={description} setValue={setDescription} />
+              <BasicTextArea label='Short Description' value={shortDescription} setValue={setShortDescription} />
               <Upload {...props}>
                   <div className='flex flex-col gap-2'>
                       <label className='text-xs text-slate-800'>Upload Image</label>
