@@ -30,7 +30,7 @@ export const apiCall = async (endpoint, options = {}) => {
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                window.location.href = '/auth/signin';
+                window.location.href = '/auth/login';
             }
             return null;
         }
@@ -154,6 +154,29 @@ export const userAPI = {
     
     delete: (id) => apiCall(`/users/${id}`, {
         method: 'DELETE',
+    }),
+};
+
+// Auth API functions
+export const authAPI = {
+    login: (credentials) => apiCall('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+    }),
+    
+    register: (userData) => apiCall('/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(userData),
+    }),
+    
+    forgotPassword: (email) => apiCall('/auth/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+    }),
+    
+    resetPassword: (data) => apiCall('/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify(data),
     }),
 };
 

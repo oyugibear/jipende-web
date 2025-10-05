@@ -40,10 +40,11 @@ export default function page() {
     }, []);
 
     useEffect(() => {
-        if(!user){
+        // Only redirect if loading is complete and user is not authenticated
+        if (!loading && !user) {
             router.push("/")
         }
-    }, [user])
+    }, [user, loading, router])
     
     const [refresh, setRefresh] = useState(false);
     
@@ -108,12 +109,14 @@ export default function page() {
         return <SimpleLoading />;
     }
     
-    if (!user) {
-        router.push('/auth/signin');
+    // Wait for auth to complete before making decisions
+    if (!loading && !user) {
+        router.push('/auth/login');
         return <SimpleRedirect />
     }
     
-    if (user.role !== "Admin") {
+    // Only check role if user exists
+    if (user && user.role !== "Admin") {
         router.push('/');
         return <SimpleRedirect />
     } 
@@ -173,7 +176,7 @@ export default function page() {
 
                     {/* Booking Management */}
                     <Card title="Booking Management" extra={<CalendarOutlined />}>
-                        <Sessions bookings={bookings}/>
+                        <Sessions bookings={bookings} services={services} users={users} setRefresh={setRefresh}/>
                     </Card>
 
                     {/* Users Management */}

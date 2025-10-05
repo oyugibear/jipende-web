@@ -63,7 +63,7 @@ export default function page() {
             </form>
 
             <div className='flex flex-col items-center justify-center gap-6'>
-              <Link href=''>
+              <Link href='/auth/forgotPassword'>
                 <p className='text-sm underline'>Forgot Password?</p>
               </Link>
               <Link href='/auth/register'>

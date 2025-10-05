@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import {PiBrainThin, PiPersonSimple, PiShoppingBagOpenLight, PiHouseLine, PiDoorOpen, PiSpeakerHifi, PiBrain, PiFacebookLogo, PiInstagramLogo, PiTwitterLogo, PiY, PiVideoCameraoutubeLogo, PiYoutu, PiPersonSimplebeLogo, PiYoutubeLogo, PiBookLight, PiInfo, PiPhone, PiFileText} from 'react-icons/pi'
 import { AiOutlineMenu } from 'react-icons/ai'
-import { BsPersonBadge } from 'react-icons/bs'
+import { BsPersonBadge, BsTwitterX } from 'react-icons/bs'
 import { Drawer, Badge } from 'antd';
 import { BiChevronDown } from 'react-icons/bi'
 
@@ -354,7 +354,7 @@ export default function Navbar() {
                         </Link>
                         <Link href='https://x.com/jipendewellness?lang=en' target='_blank'>
                             <div className='p-3 rounded-full bg-black hover:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105'>
-                                <PiTwitterLogo size={20} className="text-white"/>
+                                <BsTwitterX size={20} className="text-white"/>
                             </div>
                         </Link>
                         <Link href='https://www.youtube.com/@africajipendewellness9825' target='_blank'>

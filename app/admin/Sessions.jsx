@@ -2,10 +2,11 @@ import React, { useState, useMemo } from 'react'
 import { Table, Input, Tag, Button, Space, Card, Avatar } from 'antd'
 import { SearchOutlined, EyeOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons'
 import Link from 'next/link'
+import AdminBookingModal from '@/components/Pages/Admin/modals/AdminBookingModal'
 
 const { Search } = Input
 
-export default function Sessions({ bookings }) {
+export default function Sessions({ bookings, services, users, setRefresh }) {
   const [searchText, setSearchText] = useState('')
 
   // Filter bookings based on search text
@@ -163,6 +164,25 @@ export default function Sessions({ bookings }) {
     }
   ]
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+
+  const info = {
+    services: services,
+    users: users
+  }
+
+
   return (
     <div className="">
       <Card className="shadow-sm">
@@ -194,6 +214,12 @@ export default function Sessions({ bookings }) {
           </div>
         </div>
 
+        <div className="flex justify-end mb-2">
+          <button onClick={showModal} className='bg-yellow-500 text-white py-2 px-4 rounded-md'>
+            Add new booking
+          </button>
+        </div>
+
         <Table
           columns={columns}
           dataSource={[...filteredBookings].reverse()}
@@ -213,6 +239,15 @@ export default function Sessions({ bookings }) {
           rowClassName="hover:bg-gray-50"
         />
       </Card>
+
+      {/* Booking Modal */}
+      <AdminBookingModal
+        isModalOpen={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        info={{info}}
+        setRefresh={setRefresh}
+      />
     </div>
   )
 }

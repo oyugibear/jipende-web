@@ -92,9 +92,12 @@ export default function LoginPage() {
                         </button>
                     </div>
 
-                    <div className="text-center">
+                    <div className="text-center flex flex-col gap-2">
                         <Link href="/auth/register" className="text-black500 hover:text-yellow-600 text-sm">
                             Don't have an account? Sign up
+                        </Link>
+                        <Link href="/auth/forgotPassword" className="text-black500 hover:text-yellow-600 text-sm">
+                            Forgot your password?
                         </Link>
                     </div>
                 </form>
