@@ -1,13 +1,32 @@
 "use client"
 
 import Link from 'next/link'
-import React, { useState, useEffect } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { message } from 'antd'
 import { ArrowLeftOutlined, LockOutlined, CheckCircleOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
 import { authAPI } from '@/utils/api'
 
 export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<ResetPasswordFallback />}>
+      <ResetPasswordForm />
+    </Suspense>
+  )
+}
+
+function ResetPasswordFallback() {
+  return (
+    <div className='w-full flex flex-col py-12 px-4 items-center justify-center min-h-screen bg-gray-50'>
+      <div className='flex flex-col items-center justify-center w-full max-w-[470px] bg-white p-8 rounded-lg shadow-lg'>
+        <div className='w-8 h-8 border-4 border-yellow-300 border-t-transparent rounded-full animate-spin' />
+        <p className='mt-4 text-sm font-semibold text-gray-600'>Loading reset form...</p>
+      </div>
+    </div>
+  )
+}
+
+function ResetPasswordForm() {
   const [email, setEmail] = useState('')
   const [confirmationCode, setConfirmationCode] = useState('')
   const [newPassword, setNewPassword] = useState('')

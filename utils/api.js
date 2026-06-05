@@ -180,6 +180,60 @@ export const authAPI = {
     }),
 };
 
+// Therapy platform API functions
+export const platformAPI = {
+    getClientDashboard: (clientId) => apiCall(`/platform/client/me${clientId ? `?clientId=${clientId}` : ''}`),
+
+    getTherapistDashboard: ({ therapistId, clientId } = {}) => {
+        const params = new URLSearchParams();
+        if (therapistId) params.set('therapistId', therapistId);
+        if (clientId) params.set('clientId', clientId);
+        const query = params.toString();
+        return apiCall(`/platform/therapist/me${query ? `?${query}` : ''}`);
+    },
+
+    getAdminDashboard: () => apiCall('/platform/admin/overview'),
+
+    sendMessage: (messageData) => apiCall('/platform/messages', {
+        method: 'POST',
+        body: JSON.stringify(messageData),
+    }),
+
+    createNote: (noteData) => apiCall('/platform/notes', {
+        method: 'POST',
+        body: JSON.stringify(noteData),
+    }),
+
+    createGoal: (goalData) => apiCall('/platform/goals', {
+        method: 'POST',
+        body: JSON.stringify(goalData),
+    }),
+
+    updateGoal: (id, goalData) => apiCall(`/platform/goals/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(goalData),
+    }),
+
+    createReferral: (referralData) => apiCall('/platform/referrals', {
+        method: 'POST',
+        body: JSON.stringify(referralData),
+    }),
+
+    createFile: (fileData) => apiCall('/platform/files', {
+        method: 'POST',
+        body: JSON.stringify(fileData),
+    }),
+
+    markNotificationRead: (id) => apiCall(`/platform/notifications/${id}/read`, {
+        method: 'PATCH',
+    }),
+
+    updateSession: (id, sessionData) => apiCall(`/platform/sessions/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(sessionData),
+    }),
+};
+
 // General API object with common HTTP methods
 export const api = {
     get: (endpoint) => apiCall(endpoint, { method: 'GET' }),

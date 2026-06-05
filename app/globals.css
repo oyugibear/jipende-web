@@ -2,6 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+@keyframes ajw-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ajw-fade-up {
+  animation: ajw-fade-up 420ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ajw-fade-up {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+::selection {
+  background: #fde047;
+  color: #0a0a0a;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ajw-auth-form .ant-form-item-label > label {
+  color: #404040;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.ajw-auth-form .ant-input,
+.ajw-auth-form .ant-input-password,
+.ajw-auth-form .ant-select-selector,
+.ajw-auth-form .ant-picker {
+  border-radius: 1rem !important;
+  min-height: 48px;
+}
+
+.ajw-auth-form .ant-input:focus,
+.ajw-auth-form .ant-input-focused,
+.ajw-auth-form .ant-input-password:focus-within,
+.ajw-auth-form .ant-picker-focused,
+.ajw-auth-form .ant-select-focused .ant-select-selector {
+  border-color: #facc15 !important;
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.16) !important;
+}
+
 @layer components {
   /* h1 text */
   .head-text {

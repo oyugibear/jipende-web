@@ -11,25 +11,23 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 export const metadata = {
   metadataBase: new URL('https://africajipendewellness.com'),
   title: {
-    default: 'Africa Jipende Wellness | Mental Health & Therapy Services in Kenya',
+    default: 'Africa Jipende Wellness | Therapy Platform in Kenya',
     template: '%s | Africa Jipende Wellness'
   },
-  description: 'Africa Jipende Wellness is a leading mental health organization providing professional therapy, counseling, and wellness services across Africa, Europe, and North America. We demystify mental health globally through evidence-based therapeutic approaches.',
+  description: 'Africa Jipende Wellness is a Kenya-based hybrid therapy platform supporting online and in-person mental wellness care for clients, therapists, and administrators.',
   keywords: [
-    'mental health Africa Europe North America',
-    'therapy services global',
-    'counseling international', 
-    'mental wellness worldwide',
-    'psychological therapy global',
-    'mental health support international',
-    'African mental health services',
-    'therapy sessions worldwide',
-    'mental health professionals global',
-    'wellness programs international',
-    'psychological counseling worldwide',
-    'mental health awareness global',
-    'therapeutic services international',
-    'mental health consultation global'
+    'therapy Kenya',
+    'online therapy Kenya',
+    'in-person therapy Nairobi',
+    'mental wellness Kenya',
+    'Africa Jipende Wellness',
+    'couples therapy Kenya',
+    'family therapy Nairobi',
+    'corporate wellness Kenya',
+    'school wellness Kenya',
+    'therapist portal',
+    'client therapy portal',
+    'mental health platform Kenya'
   ],
   authors: [{ name: 'Africa Jipende Wellness' }],
   creator: 'Africa Jipende Wellness',
@@ -47,11 +45,11 @@ export const metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    alternateLocale: ['en_GB', 'en_CA', 'fr_FR', 'es_ES'],
+    locale: 'en_KE',
+    alternateLocale: ['en_US', 'en_GB'],
     url: 'https://africajipendewellness.com',
-    title: 'Africa Jipende Wellness | Global Mental Health Services',
-    description: 'Transform your mental wellness journey with Africa Jipende Wellness. Professional therapy, counseling, and mental health support services across Africa, Europe, and North America.',
+    title: 'Africa Jipende Wellness | Therapy Platform in Kenya',
+    description: 'Online and in-person therapy in Kenya with secure client, therapist, and admin portal experiences.',
     siteName: 'Africa Jipende Wellness',
     images: [
       {
@@ -64,16 +62,11 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Africa Jipende Wellness | Mental Health Services',
-    description: 'Professional mental health and therapy services in Kenya. Book your session today.',
+    title: 'Africa Jipende Wellness | Therapy Platform',
+    description: 'Hybrid therapy in Kenya with secure portal experiences for clients and therapists.',
     site: '@jipendewellness',
     creator: '@jipendewellness',
     images: ['/assets/logo1.png'],
-  },
-  verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-    yahoo: 'your-yahoo-verification-code',
   },
   alternates: {
     canonical: 'https://africajipendewellness.com',
@@ -90,7 +83,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/icon.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="theme-color" content="#eab308" />
+        <meta name="theme-color" content="#0F1115" />
         <link rel="manifest" href="/manifest.json" />
         
         {/* Structured Data for SEO */}
@@ -103,33 +96,32 @@ export default function RootLayout({
               "name": "Africa Jipende Wellness",
               "url": "https://africajipendewellness.com",
               "logo": "https://africajipendewellness.com/assets/logo1.png",
-              "description": "Professional mental health and therapy services across Africa, Europe, and North America",
+              "description": "Hybrid online and in-person mental wellness care in Kenya",
               "areaServed": [
                 {
                   "@type": "Place",
-                  "name": "Africa"
+                  "name": "Kenya"
                 },
                 {
                   "@type": "Place", 
-                  "name": "Europe"
-                },
-                {
-                  "@type": "Place",
-                  "name": "North America"
+                  "name": "East Africa"
                 }
               ],
               "address": {
                 "@type": "PostalAddress",
+                "streetAddress": "Kilimani",
+                "addressLocality": "Nairobi",
                 "addressCountry": "Kenya",
                 "addressRegion": "Nairobi"
               },
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "availableLanguage": ["English", "French", "Spanish", "Swahili"]
+                "email": "info@africajipendewellness.com",
+                "availableLanguage": ["English", "Swahili"]
               },
               "medicalSpecialty": "Mental Health",
-              "serviceType": "Online Mental Health Services",
+              "serviceType": "Online and In-Person Therapy",
               "sameAs": [
                 "https://www.facebook.com/jipendewellness/",
                 "https://www.instagram.com/jipendewellness/",
@@ -140,12 +132,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={montserrat.className}>
+      <body className={`${montserrat.className} bg-[#FAFAF8] text-[#0F1115] antialiased`}>
         {/* Analytics Components */}
         <AnalyticsWrapper 
-          GA_MEASUREMENT_ID="G-XXXXXXXXXX"
-          PIXEL_ID="XXXXXXXXXX" 
-          CLARITY_ID="XXXXXXXXXX"
+          GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}
+          PIXEL_ID={process.env.NEXT_PUBLIC_PIXEL_ID}
+          CLARITY_ID={process.env.NEXT_PUBLIC_CLARITY_ID}
         />
         
         <ClientProviders>

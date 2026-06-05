@@ -3,13 +3,17 @@
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
+function hasRealAnalyticsId(value) {
+  return Boolean(value && !String(value).includes('XXXX'))
+}
+
 // Google Analytics 4 Component
 export function GoogleAnalytics({ GA_MEASUREMENT_ID }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (!GA_MEASUREMENT_ID) return
+    if (!hasRealAnalyticsId(GA_MEASUREMENT_ID)) return
 
     // Load Google Analytics script
     const script1 = document.createElement('script')
@@ -41,7 +45,7 @@ export function GoogleAnalytics({ GA_MEASUREMENT_ID }) {
   }, [GA_MEASUREMENT_ID])
 
   useEffect(() => {
-    if (!window.gtag) return
+    if (!hasRealAnalyticsId(GA_MEASUREMENT_ID) || !window.gtag) return
 
     const url = pathname + searchParams.toString()
     
@@ -183,7 +187,7 @@ export const mentalHealthEvents = {
 // Facebook Pixel Component
 export function FacebookPixel({ PIXEL_ID }) {
   useEffect(() => {
-    if (!PIXEL_ID) return
+    if (!hasRealAnalyticsId(PIXEL_ID)) return
 
     // Facebook Pixel Code
     !(function(f, b, e, v, n, t, s) {
@@ -213,7 +217,7 @@ export function FacebookPixel({ PIXEL_ID }) {
 // Microsoft Clarity Component
 export function MicrosoftClarity({ CLARITY_ID }) {
   useEffect(() => {
-    if (!CLARITY_ID) return
+    if (!hasRealAnalyticsId(CLARITY_ID)) return
 
     (function(c,l,a,r,i,t,y){
       c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
